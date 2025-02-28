@@ -1,10 +1,10 @@
 from fastapi import FastAPI, BackgroundTasks
-from src.config import load_config
+import src.initialize  # Ensure Constants is set
+from src.constants import Constants
 import subprocess
 from pydantic import BaseModel
 
 app = FastAPI()
-config = load_config('config/config.yaml', 'config/hyperparameters.yaml')
 
 class TrainRequest(BaseModel):
     pass  # No parameters for now; can extend later
@@ -19,3 +19,7 @@ def run_pipeline():
 async def train_model(background_tasks: BackgroundTasks):
     background_tasks.add_task(run_pipeline)
     return {"message": "Pipeline started in the background"}
+
+# Critical Comment: Removed direct config loading since Constants is set via src/initialize.py.
+# The hardcoded YAML paths are now accessed via Constants.CONFIG_PATH and Constants.HYPERPARAMS_PATH if needed,
+# though not used here as the pipeline is triggered via DVC.

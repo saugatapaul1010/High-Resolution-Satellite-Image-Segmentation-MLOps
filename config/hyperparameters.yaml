@@ -1,22 +1,23 @@
 model:
-  backbone: efficientnetb0
+  backbone: efficientnetb0           
   activation: sigmoid
   num_classes: 1
-  img_width: 512
-  img_height: 512
+  img_width: 512                    
+  img_height: 512                   
   input_channels: 3
-  batch_size: 4
+  batch_size: 4                     
   learning_rate: 0.001
-  epochs: 5
+  epochs: 5                         
   earlystop_patience: 10
-  earlystop_min_delta: 0.0
-  reducelr_factor: 0.25
+  earlystop_min_delta: 0.0          
+  reducelr_factor: 0.25             
   reducelr_patience: 5
   verbose: 1
   seed: 42
-  rescale: 255.0
-  patch_size: 512
+  rescale: 255.0                    
+  patch_size: 512                   
 general:
-  callback_mode: auto
+  callback_mode: auto               
   color_mode_rgb: rgb
   color_mode_grayscale: grayscale
+  split_ratio: 0.90                 

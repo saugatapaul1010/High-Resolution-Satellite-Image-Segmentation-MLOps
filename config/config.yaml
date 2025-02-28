@@ -10,3 +10,5 @@ data:
   val_masks: data/val/val_masks/val
 models: models
 tensorboard_logs: tb_logs
+config_path: config/config.yaml   
+hyperparams_path: config/hyperparameters.yaml  

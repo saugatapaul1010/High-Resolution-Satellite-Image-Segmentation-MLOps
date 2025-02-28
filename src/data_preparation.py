@@ -4,18 +4,19 @@ import json
 from patchify import patchify
 from tqdm import tqdm
 import numpy as np
-from src.config import Config
+import src.initialize  # Ensure Constants is set
+from src.constants import Constants
 
 class DataPreparation:
-    def __init__(self, config: Config):
-        self.config = config
+    def __init__(self, config):  # Kept config param for compatibility, though unused
+        pass  # No need for self.config since we use Constants
 
     def prepare_patches(self):
-        raw_dir = self.config.data.raw
-        processed_dir = self.config.data.processed
-        bin_mask_patches_path = self.config.data.binary_masks_patches
-        raw_image_patches_path = self.config.data.raw_images_patches
-        bin_mask_path = self.config.data.binary_masks
+        raw_dir = Constants.RAW
+        processed_dir = Constants.PROCESSED
+        bin_mask_patches_path = Constants.BINARY_MASKS_PATCHES
+        raw_image_patches_path = Constants.RAW_IMAGES_PATCHES
+        bin_mask_path = Constants.BINARY_MASKS
 
         os.makedirs(bin_mask_patches_path, exist_ok=True)
         os.makedirs(raw_image_patches_path, exist_ok=True)
@@ -33,7 +34,7 @@ class DataPreparation:
             im_binary = self.create_binary_masks(png_image, shape_dicts)
             cv2.imwrite(bin_mask_file, im_binary)
 
-            patch_size = self.config.model.patch_size
+            patch_size = Constants.PATCH_SIZE
             pad_mask = self.pad_input_img_single_channel(im_binary, patch_size)
             patches_mask = patchify(pad_mask, (patch_size, patch_size), patch_size)
 
@@ -101,3 +102,6 @@ class DataPreparation:
         result_h = np.vstack((image, pad_h))
         pad_w = np.zeros((result_h.shape[0], pixels_to_add_w, 3))
         return np.hstack((result_h, pad_w))
+
+# Critical Comment: The config parameter is retained for compatibility but is unused since Constants is now global.
+# Ensure src/initialize.py is imported before any Constants attribute is accessed to avoid AttributeError.

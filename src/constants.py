@@ -1,42 +1,47 @@
 # src/constants.py
 
 class Constants:
-    # Data paths
-    RAW_DATA_DIR = "data/raw"
-    PROCESSED_DATA_DIR = "data/processed"
-    BINARY_MASKS_DIR = "data/binary_masks"
-    BINARY_MASKS_PATCHES_DIR = "data/binary_masks_patches"
-    RAW_IMAGES_PATCHES_DIR = "data/raw_images_patches"
-    TRAIN_IMAGES_DIR = "data/train/images"
-    TRAIN_MASKS_DIR = "data/train/masks"
-    VAL_IMAGES_DIR = "data/val/images"
-    VAL_MASKS_DIR = "data/val/masks"
-    MODELS_DIR = "models"
-    TENSORBOARD_LOGS_DIR = "logs/tensorboard"
+    @classmethod
+    def set_config(cls, config):
+        # Data paths
+        cls.RAW = config.data.raw
+        cls.PROCESSED = config.data.processed
+        cls.BINARY_MASKS = config.data.binary_masks
+        cls.BINARY_MASKS_PATCHES = config.data.binary_masks_patches
+        cls.RAW_IMAGES_PATCHES = config.data.raw_images_patches
+        cls.TRAIN_IMAGES = config.data.train_images
+        cls.TRAIN_MASKS = config.data.train_masks
+        cls.VAL_IMAGES = config.data.val_images
+        cls.VAL_MASKS = config.data.val_masks
+        cls.MODELS = config.models
+        cls.TENSORBOARD_LOGS = config.tensorboard_logs
+        cls.CONFIG_PATH = config.config_path
+        cls.HYPERPARAMS_PATH = config.hyperparams_path
 
-    # Model hyperparameters
-    BACKBONE = "resnet34"
-    ACTIVATION = "sigmoid"
-    NUM_CLASSES = 1
-    IMG_WIDTH = 256
-    IMG_HEIGHT = 256
-    INPUT_CHANNELS = 3
-    BATCH_SIZE = 8
-    LEARNING_RATE = 0.001
-    EPOCHS = 50
-    EARLYSTOP_PATIENCE = 10
-    EARLYSTOP_MIN_DELTA = 0.001
-    REDUCELR_FACTOR = 0.2
-    REDUCELR_PATIENCE = 5
-    VERBOSE = 1
-    SEED = 42
-    RESCALE = 1./255
-    PATCH_SIZE = 256
+        # Model hyperparameters
+        cls.BACKBONE = config.model.backbone
+        cls.ACTIVATION = config.model.activation
+        cls.NUM_CLASSES = config.model.num_classes
+        cls.IMG_WIDTH = config.model.img_width
+        cls.IMG_HEIGHT = config.model.img_height
+        cls.INPUT_CHANNELS = config.model.input_channels
+        cls.BATCH_SIZE = config.model.batch_size
+        cls.LEARNING_RATE = config.model.learning_rate
+        cls.EPOCHS = config.model.epochs
+        cls.EARLYSTOP_PATIENCE = config.model.earlystop_patience
+        cls.EARLYSTOP_MIN_DELTA = config.model.earlystop_min_delta
+        cls.REDUCELR_FACTOR = config.model.reducelr_factor
+        cls.REDUCELR_PATIENCE = config.model.reducelr_patience
+        cls.VERBOSE = config.model.verbose
+        cls.SEED = config.model.seed
+        cls.RESCALE = config.model.rescale
+        cls.PATCH_SIZE = config.model.patch_size
 
-    # General settings
-    CALLBACK_MODE = "max"
-    COLOR_MODE_RGB = "rgb"
-    COLOR_MODE_GRAYSCALE = "grayscale"
+        # General settings
+        cls.CALLBACK_MODE = config.general.callback_mode
+        cls.COLOR_MODE_RGB = config.general.color_mode_rgb
+        cls.COLOR_MODE_GRAYSCALE = config.general.color_mode_grayscale
+        cls.SPLIT_RATIO = config.general.split_ratio
 
-# Note: These values are placeholders. In a real application, they could be set by a separate script
-# that reads YAML files once and updates this class, but that step is outside the main logic.
+# Critical Comment: This class must be initialized with config data before use in any script.
+# Ensure that Constants.set_config() is called with a valid Config object early in the execution flow.

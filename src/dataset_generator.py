@@ -2,6 +2,8 @@ import os
 import random
 import shutil
 from src.config import Config
+import src.initialize  # Ensure Constants is set
+from src.constants import Constants
 
 class DatasetGenerator:
     def __init__(self, config: Config):
@@ -21,7 +23,7 @@ class DatasetGenerator:
 
         self.image_files = [f for f in os.listdir(self.images_patch_folder) if f.endswith('.png')]
         random.shuffle(self.image_files)
-        split_ratio = 0.90  # Hardcoded split ratio; could be moved to YAML if needed
+        split_ratio = Constants.SPLIT_RATIO
         split_index = int(len(self.image_files) * split_ratio)
         self.train_list = self.image_files[:split_index]
         self.val_list = self.image_files[split_index:]

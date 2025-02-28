@@ -1,5 +1,9 @@
 # src/constants.py
 
+from initialize import initialize
+initialize()  # This loads config.yaml and sets Constants
+from data_preparation import DataPreparation
+
 class Constants:
     @classmethod
     def set_config(cls, config):

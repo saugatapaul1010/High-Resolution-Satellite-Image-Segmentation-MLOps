@@ -1,5 +1,5 @@
-from src.config import load_config
-from src.constants import Constants
+from config import load_config
+from constants import Constants
 
 # Load configuration and set Constants
 config = load_config('config/config.yaml', 'config/hyperparameters.yaml')

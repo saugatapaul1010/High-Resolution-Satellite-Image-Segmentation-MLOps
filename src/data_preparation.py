@@ -4,8 +4,8 @@ import json
 from patchify import patchify
 from tqdm import tqdm
 import numpy as np
-import src.initialize  # Ensure Constants is set
-from src.constants import Constants
+import initialize  # Ensure Constants is set
+from constants import Constants
 
 class DataPreparation:
     def __init__(self, config):  # Kept config param for compatibility, though unused
@@ -105,3 +105,12 @@ class DataPreparation:
 
 # Critical Comment: The config parameter is retained for compatibility but is unused since Constants is now global.
 # Ensure src/initialize.py is imported before any Constants attribute is accessed to avoid AttributeError.
+
+
+
+from initialize import initialize
+from data_preparation import DataPreparation
+
+initialize()  # Set up Constants
+dp = DataPreparation(None)
+dp.prepare_patches()  # Run data preparation

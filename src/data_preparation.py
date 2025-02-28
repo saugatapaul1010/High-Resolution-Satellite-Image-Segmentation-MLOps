@@ -1,3 +1,5 @@
+# src/data_preparation.py
+
 import os
 import cv2
 import json
@@ -5,7 +7,7 @@ from patchify import patchify
 from tqdm import tqdm
 import numpy as np
 import initialize  # Ensure Constants is set
-from constants import Constants
+from .constants import Constants
 
 class DataPreparation:
     def __init__(self, config):  # Kept config param for compatibility, though unused
@@ -102,15 +104,17 @@ class DataPreparation:
         result_h = np.vstack((image, pad_h))
         pad_w = np.zeros((result_h.shape[0], pixels_to_add_w, 3))
         return np.hstack((result_h, pad_w))
-
-# Critical Comment: The config parameter is retained for compatibility but is unused since Constants is now global.
-# Ensure src/initialize.py is imported before any Constants attribute is accessed to avoid AttributeError.
-
+    
+# run_data_preparation.py
 
 
-from initialize import initialize
-from data_preparation import DataPreparation
+def main():
+    # Instantiate the DataPreparation class
+    # Pass None for config since Constants handles the configuration
+    dp = DataPreparation(None)
+    
+    # Run the prepare_patches method to process the data
+    dp.prepare_patches()
 
-initialize()  # Set up Constants
-dp = DataPreparation(None)
-dp.prepare_patches()  # Run data preparation
+if __name__ == "__main__":
+    main()

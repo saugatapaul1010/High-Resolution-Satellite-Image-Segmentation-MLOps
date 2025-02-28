@@ -1,3 +1,5 @@
+# src/config.py
+
 from pydantic import BaseModel
 from typing import Dict, List
 
@@ -35,14 +37,14 @@ class GeneralConfig(BaseModel):
     callback_mode: str
     color_mode_rgb: str
     color_mode_grayscale: str
-    split_ratio: float  # Added for dataset split ratio
+    split_ratio: float
 
 class Config(BaseModel):
     data: DataConfig
     models: str
     tensorboard_logs: str
-    config_path: str       # Added for config file path
-    hyperparams_path: str  # Added for hyperparams file path
+    config_path: str
+    hyperparams_path: str
     model: ModelConfig
     general: GeneralConfig
 
@@ -54,6 +56,6 @@ def load_config(config_path: str, hyperparams_path: str) -> Config:
         hyperparams_data = yaml.safe_load(f)
     config_data['model'] = hyperparams_data['model']
     config_data['general'] = hyperparams_data['general']
-    config_data['config_path'] = config_path  # Set dynamically
-    config_data['hyperparams_path'] = hyperparams_path  # Set dynamically
+    config_data['config_path'] = config_path
+    config_data['hyperparams_path'] = hyperparams_path
     return Config(**config_data)

@@ -1,9 +1,11 @@
+# src/dataset_generator.py
+
 import os
 import random
 import shutil
-from src.config import Config
+from .config import Config
 import src.initialize  # Ensure Constants is set
-from src.constants import Constants
+from .constants import Constants
 
 class DatasetGenerator:
     def __init__(self, config: Config):

@@ -1,9 +1,11 @@
+# src/train.py
+
 import os
 import mlflow
 import mlflow.tensorflow
 import src.initialize  # Ensure Constants is set
-from src.constants import Constants
-from src.model_trainer import ModelTrainer
+from .constants import Constants
+from .model_trainer import ModelTrainer
 
 def run_training(config):  # Kept config param for compatibility, though unused
     with mlflow.start_run():
@@ -25,7 +27,6 @@ def run_training(config):  # Kept config param for compatibility, though unused
         model.save(os.path.join(Constants.MODELS, f'model_{run_id}.h5'))
         trainer.save_plots_keras(history, run_id)
 
-        # Log parameters (manually since config.model.dict() is no longer available)
         mlflow.log_param("backbone", Constants.BACKBONE)
         mlflow.log_param("activation", Constants.ACTIVATION)
         mlflow.log_param("num_classes", Constants.NUM_CLASSES)
@@ -56,7 +57,4 @@ def run_training(config):  # Kept config param for compatibility, though unused
         mlflow.log_artifact(tensorboard_log_dir)
 
 if __name__ == "__main__":
-    run_training(None)  # No config needed since Constants is set via src/initialize.py
-
-# Critical Comment: The config parameter is retained but unused. MLflow logging now manually lists parameters
-# from Constants since we no longer pass a Config object.
+    run_training(None)

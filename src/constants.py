@@ -1,9 +1,5 @@
 # src/constants.py
 
-from initialize import initialize
-initialize()  # This loads config.yaml and sets Constants
-from data_preparation import DataPreparation
-
 class Constants:
     @classmethod
     def set_config(cls, config):
@@ -46,6 +42,3 @@ class Constants:
         cls.COLOR_MODE_RGB = config.general.color_mode_rgb
         cls.COLOR_MODE_GRAYSCALE = config.general.color_mode_grayscale
         cls.SPLIT_RATIO = config.general.split_ratio
-
-# Critical Comment: This class must be initialized with config data before use in any script.
-# Ensure that Constants.set_config() is called with a valid Config object early in the execution flow.

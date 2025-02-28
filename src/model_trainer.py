@@ -1,3 +1,5 @@
+# src/model_trainer.py
+
 import os
 import tensorflow as tf
 from tensorflow.keras.preprocessing.image import ImageDataGenerator
@@ -6,8 +8,8 @@ from tensorflow.keras.callbacks import EarlyStopping, ReduceLROnPlateau, TensorB
 import segmentation_models as sm
 import plotly.express as px
 import src.initialize  # Ensure Constants is set
-from src.constants import Constants
-from src.metrics import Metrics
+from .constants import Constants
+from .metrics import Metrics
 
 class ModelTrainer:
     def __init__(self, config):  # Kept config param for compatibility, though unused
@@ -65,7 +67,7 @@ class ModelTrainer:
 
     def train_generator(self, img_path, mask_path):
         img_data_gen_args = dict(
-            rescale=1./Constants.RESCALE,  # Adjusted to match typical normalization (divide by rescale value)
+            rescale=1./Constants.RESCALE,
             horizontal_flip=True,
             vertical_flip=True
         )

@@ -1,1 +1,0 @@
-# High-Resolution-Satellite-Image-Segmentation

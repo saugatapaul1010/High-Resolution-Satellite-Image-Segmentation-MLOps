@@ -1,74 +1,83 @@
 import os
 
-# Define the folder structure
-folder_structure = {
-    "config": [],  # Configuration files (YAML)
-    "data": [],  # Raw data (tracked by DVC)
-    "src": [
-        "__init__.py",
-        "data_preparation.py",
-        "dataset_generator.py",
-        "metrics.py",
-        "model_trainer.py",
-        "model.py",
-        "utils.py"
-    ],
-    "src/api": [
-        "__init__.py",
-        "main.py",
-        "schemas.py"
-    ],
-    "tests": [
-        "__init__.py",
-        "test_data_preparation.py",
-        "test_model_trainer.py"
-    ],
-    "mlflow": [],  # MLflow artifacts (not directly tracked)
-    "kubernetes": [
-        "deployment.yaml",
-        "service.yaml"
-    ],
-    ".github/workflows": [
-        "ci.yaml"
-    ]
+# Define the folder structure as a nested dictionary.
+# A value of None indicates an empty file; a nested dict indicates a directory.
+structure = {
+    "data": {
+        "raw": {},
+        "processed": {},
+        "train": {
+            "train_images": {
+                "train": {}
+            },
+            "train_masks": {
+                "train": {}
+            }
+        },
+        "val": {
+            "val_images": {
+                "val": {}
+            },
+            "val_masks": {
+                "val": {}
+            }
+        },
+    },
+    "models": {},
+    "src": {
+        "data_preparation.py": None,
+        "dataset_generator.py": None,
+        "metrics.py": None,
+        "model_trainer.py": None,
+        "config.py": None,
+        "constants.py": None,
+        "main.py": None,
+        "train.py": None,
+    },
+    "config": {
+        "config.yaml": None,
+        "hyperparameters.yaml": None,
+    },
+    "tests": {
+        "test_metrics.py": None,
+        "test_data_preparation.py": None,
+        "test_model_trainer.py": None,
+    },
+    ".dvc": {},
+    ".github": {
+        "workflows": {
+            "ci.yaml": None,
+        },
+    },
+    "sonar-project.properties": None,
+    "dvc.yaml": None,
+    "requirements.txt": None,
+    "Dockerfile": None,
+    "README.md": None,
 }
 
-# Define files at the root level
-root_files = [
-    "dvc.yaml",
-    "requirements.txt",
-    "Dockerfile"
-]
+def create_structure(base_path: str, tree: dict):
+    """
+    Recursively creates directories and files from the nested dictionary.
+    
+    Args:
+        base_path (str): The base directory where creation begins.
+        tree (dict): The nested dictionary representing the folder structure.
+    """
+    for name, subtree in tree.items():
+        current_path = os.path.join(base_path, name)
+        if subtree is None:
+            # Create an empty file.
+            with open(current_path, 'w') as f:
+                f.write("")  # Empty file
+            print(f"Created file: {current_path}")
+        else:
+            # Create the directory (if it doesn't exist), then recursively create its contents.
+            os.makedirs(current_path, exist_ok=True)
+            print(f"Created directory: {current_path}")
+            create_structure(current_path, subtree)
 
-# Function to create directories and files
-def create_structure():
-    base_path = os.getcwd()  # Get the current working directory
-
-    for folder, files in folder_structure.items():
-        folder_path = os.path.join(base_path, folder)
-
-        # ✅ Check if it's a file instead of a folder and remove it
-        if os.path.exists(folder_path) and not os.path.isdir(folder_path):
-            print(f"❌ Error: {folder_path} exists as a file. Deleting it...")
-            os.remove(folder_path)
-        
-        os.makedirs(folder_path, exist_ok=True)  # Create folder if it doesn't exist
-
-        for file in files:
-            file_path = os.path.join(folder_path, file)
-            if not os.path.exists(file_path):  # Avoid overwriting existing files
-                with open(file_path, "w") as f:
-                    f.write("")  # Create an empty file
-
-    # Create root-level files
-    for file in root_files:
-        file_path = os.path.join(base_path, file)
-        if not os.path.exists(file_path):
-            with open(file_path, "w") as f:
-                f.write("")  # Create an empty file
-
-    print("✅ Project structure created successfully!")
-
-# Run the function
 if __name__ == "__main__":
-    create_structure()
+    # Get the current directory where the script is run
+    current_directory = os.getcwd()
+    create_structure(current_directory, structure)

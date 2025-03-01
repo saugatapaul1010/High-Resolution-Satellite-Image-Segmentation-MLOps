@@ -1,17 +1,23 @@
 # src/data_preparation.py
 
+import sys
 import os
+
+# Fix path to include project root
+project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
+sys.path.append(project_root)
+
 import cv2
 import json
 from patchify import patchify
 from tqdm import tqdm
 import numpy as np
-import initialize  # Ensure Constants is set
-from .constants import Constants
+import initialize  # Loads config and sets Constants
+from constants import Constants
 
 class DataPreparation:
-    def __init__(self, config):  # Kept config param for compatibility, though unused
-        pass  # No need for self.config since we use Constants
+    def __init__(self, config):  # config unused, kept for compatibility
+        pass
 
     def prepare_patches(self):
         raw_dir = Constants.RAW
@@ -104,16 +110,9 @@ class DataPreparation:
         result_h = np.vstack((image, pad_h))
         pad_w = np.zeros((result_h.shape[0], pixels_to_add_w, 3))
         return np.hstack((result_h, pad_w))
-    
-# run_data_preparation.py
-
 
 def main():
-    # Instantiate the DataPreparation class
-    # Pass None for config since Constants handles the configuration
     dp = DataPreparation(None)
-    
-    # Run the prepare_patches method to process the data
     dp.prepare_patches()
 
 if __name__ == "__main__":

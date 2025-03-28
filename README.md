@@ -2,323 +2,299 @@
 
 ![GitHub Actions Workflow Status](https://img.shields.io/github/actions/workflow/status/your-org/satellite-segmentation-mlops/ci.yaml?branch=main)
 ![Python Version](https://img.shields.io/badge/python-3.9-blue)
+![TensorFlow](https://img.shields.io/badge/TensorFlow-2.9-orange)
 ![License](https://img.shields.io/badge/license-MIT-green)
 
 ## Table of Contents
 
-- [Introduction](#introduction)
-- [Project Vision](#project-vision)
-- [System Architecture](#system-architecture)
-- [Getting Started](#getting-started)
-  - [Prerequisites](#prerequisites)
-  - [Installation](#installation)
-  - [Configuration](#configuration)
-- [Core Components](#core-components)
-  - [Data Management](#data-management)
-  - [Training Pipeline](#training-pipeline)
-  - [Model Registry](#model-registry)
-  - [API Service](#api-service)
-  - [Monitoring System](#monitoring-system)
-- [Continuous Integration](#continuous-integration)
-  - [Pipeline Overview](#pipeline-overview)
-  - [Code Quality Checks](#code-quality-checks)
-  - [Testing Strategy](#testing-strategy)
-  - [Artifact Management](#artifact-management)
-- [Development Workflow](#development-workflow)
-- [Contributing](#contributing)
-- [License](#license)
+- [The Challenge of Production ML for Satellite Imagery](#the-challenge-of-production-ml-for-satellite-imagery)
+- [From Academic Models to Production Systems](#from-academic-models-to-production-systems)
+- [System Architecture: Thinking in Layers](#system-architecture-thinking-in-layers)
+- [Developer Setup](#developer-setup)
+- [Core Components: Deep Dive](#core-components-deep-dive)
+  - [Data Versioning: Why DVC?](#data-versioning-why-dvc)
+  - [Data Processing: Fighting the Patch Battle](#data-processing-fighting-the-patch-battle)
+  - [Segmentation Models: Architecture Decisions](#segmentation-models-architecture-decisions)
+  - [Experiment Tracking: Lessons from the Trenches](#experiment-tracking-lessons-from-the-trenches)
+  - [Model Registry: The Single Source of Truth](#model-registry-the-single-source-of-truth)
+  - [API Design: RESTful, Async, and Robust](#api-design-restful-async-and-robust)
+  - [Monitoring: Watch Your Models Like a Hawk](#monitoring-watch-your-models-like-a-hawk)
+- [The CI Pipeline: Quality from Day One](#the-ci-pipeline-quality-from-day-one)
+  - [Testing Strategies for ML Systems](#testing-strategies-for-ml-systems)
+  - [Static Analysis and Why It Matters](#static-analysis-and-why-it-matters)
+  - [Automating Quality Checks](#automating-quality-checks)
+- [Development Workflow and Best Practices](#development-workflow-and-best-practices)
+- [Future Roadmap](#future-roadmap)
+- [FAQs and Troubleshooting](#faqs-and-troubleshooting)
+- [License and Contributing](#license-and-contributing)
 
-## Introduction
+## The Challenge of Production ML for Satellite Imagery
 
-In the age of Earth observation satellites, we're swimming in a sea of high-resolution imagery. This abundance of visual data offers unprecedented opportunities for monitoring our planet – from detecting deforestation to urban planning and disaster response. But the real challenge? Transforming these raw pixels into actionable insights, at scale.
+Three years ago, I found myself staring at a beautiful satellite image segmentation model that worked flawlessly in my Jupyter notebook but failed miserably in production. The painful truth hit me: creating a great model is only 20% of the battle. The other 80%? Building the infrastructure to make that model reliable, maintainable, and actually useful in the real world.
 
-Satellite image segmentation – the task of pixel-wise classification of satellite imagery – stands at the frontier of this challenge. Manual annotation is slow, expensive, and simply cannot keep pace with the volume of incoming data. Machine learning offers a solution, but implementing a production-ready ML system comes with its own set of complex engineering challenges.
+Satellite imagery presents unique MLOps challenges that typical ML systems don't face:
 
-This project implements a robust, production-grade MLOps system for high-resolution satellite image segmentation. Built for on-premise deployment, it integrates the best practices of software engineering with the specialized needs of machine learning workflows. From data versioning to continuous integration, from experiment tracking to model deployment and monitoring – I've created a comprehensive solution for organizations that need reliable, reproducible, and maintainable AI systems for satellite imagery analysis.
+1. **Scale issues**: We're talking gigapixel images that won't fit in memory
+2. **Projection problems**: The Earth is round (mostly), but our images are flat
+3. **Label scarcity**: Manual annotation of satellite imagery is expensive and requires expertise
+4. **Temporal dynamics**: Landscapes change, making model drift inevitable
+5. **Processing complexity**: From radiometric calibration to atmospheric correction
 
-> "In the world of satellite imagery, the difference between a prototype and a production system is the difference between interesting research and real-world impact."
+After encountering these issues repeatedly across projects, I decided to build a system that would solve these problems once and for all. This repository is the result - a complete MLOps pipeline specifically designed for satellite image segmentation that treats engineering with the same rigor as the ML modeling.
 
-## Project Vision
+## From Academic Models to Production Systems
 
-When I started this project, I asked myself: what would it take to bridge the gap between a working segmentation model and a system that delivers value in production, year after year? The answer wasn't just about model accuracy – it was about engineering discipline, operational excellence, and designing for change.
+When I first started working with segmentation models for satellite imagery, the literature was full of innovative architectures and impressive IoU scores. Papers would casually mention "we used U-Net with an EfficientNet backbone" and show incredible results. 
 
-The vision for this system encompasses five key principles:
+But those papers never mentioned:
+- How they versioned terabytes of satellite data
+- How they handled training when images don't fit in memory
+- How they managed experiment tracking across hundreds of runs
+- How they monitored models in production
+- How they retrained when drift occurred
 
-1. **Reproducibility First**: Every experiment, dataset version, and model must be tracked and reproducible. There's no place for "it worked on my machine" in production ML.
+In other words, all the hard parts of building a _system_ rather than just a model.
 
-2. **Continuous Improvement**: The system should evolve through continuous integration, testing, and deployment of both code and models.
+If you're facing similar challenges, you've probably realized that MLOps isn't just DevOps with a sprinkle of ML - it's a discipline unto itself, with unique requirements and trade-offs. This project embraces that reality by implementing a complete production-grade pipeline for satellite image segmentation that addresses all these concerns.
 
-3. **Self-Monitoring**: A production system needs to watch itself, detecting when data distributions shift or model performance degrades.
+I've drawn inspiration from systems at companies like Planet, Descartes Labs, and Orbital Insight, but adapted to work completely on-premise (because not everyone has the luxury of unlimited cloud resources, and some data can't leave your building for compliance reasons).
 
-4. **Scalable Processing**: Satellite images are BIG. The system must efficiently handle preprocessing, training, and inference on high-resolution imagery.
+## System Architecture: Thinking in Layers
 
-5. **Quality Through Automation**: Tests, code quality checks, and documented processes ensure the system remains maintainable as it grows.
-
-This repository represents the realization of that vision – a complete MLOps pipeline that transforms raw satellite images and annotations into continuously improving segmentation models that deliver reliable results in production.
-
-## System Architecture
-
-Our architecture cleanly separates concerns while maintaining a coherent workflow from data to deployment:
+After multiple iterations (and painful rewrites), I settled on a layered architecture that separates concerns while maintaining a clear flow from data to deployment:
 
 ![System Architecture Diagram](docs/images/system-architecture.png)
 
-### Data Management Layer
+This architecture isn't arbitrary - it's designed to answer specific questions that arise in production ML systems:
 
-The foundation of our system, responsible for:
-- Versioning raw satellite imagery and annotations (DVC)
-- Data validation and quality assurance
-- Preprocessing and patch generation
-- Maintaining a data registry with metadata
+1. **Data Management Layer**: "How do we version, validate, and preprocess satellite imagery at scale?"
+2. **Training Pipeline**: "How do we transform raw data into trained models in a reproducible way?"
+3. **Model Registry**: "How do we track, compare, and organize models throughout their lifecycle?"
+4. **Inference Pipeline**: "How do we serve predictions efficiently for both real-time and batch workloads?"
+5. **Monitoring System**: "How do we know if our models are performing as expected in production?"
+6. **CI/CD Pipeline**: "How do we ensure code quality and automate deployments?"
+7. **Containerization**: "How do we create consistent environments from development to production?"
 
-### Training Pipeline
+Each layer has its own responsibilities and interfaces with adjacent layers, creating a modular system that's easier to understand, test, and evolve.
 
-The experimental heart of our system, handling:
-- Feature engineering from preprocessed data
-- Model training with various architectures (LinkNet, UNet, MANet)
-- Hyperparameter optimization
-- Evaluation against standard metrics (IoU, Dice coefficient)
-- Experiment tracking (MLflow)
+Let's examine a concrete example of how these layers interact:
 
-### Model Registry
+1. You upload new satellite imagery to the **Data Management Layer**
+2. That layer versions the data with DVC and applies preprocessing
+3. You trigger a new model training job in the **Training Pipeline**
+4. The pipeline trains models with different hyperparameters and tracks them in MLflow
+5. The best model is registered in the **Model Registry**
+6. The **Inference Pipeline** automatically picks up the new model for serving
+7. The **Monitoring System** compares the new model's performance with the previous version
+8. If drift is detected, it triggers a retraining job
 
-Our model management layer, providing:
-- Versioned storage of trained models
-- Model metadata and performance metrics
-- Staging and production environment transitions
-- Model lineage tracking
+This flow of data and control ensures that each component has a single responsibility, making the system more maintainable and robust.
 
-### Inference Pipeline
+## Developer Setup
 
-The operational core, offering:
-- Real-time prediction via REST API (FastAPI)
-- Batch prediction for large datasets
-- Post-processing of segmentation masks
-- Coordinate transformation to geographic systems
-
-### Monitoring System
-
-The vigilant observer, featuring:
-- Performance monitoring of deployed models
-- Data drift detection
-- Concept drift identification
-- Alerting systems
-- Centralized logging
-
-### CI/CD Pipeline
-
-The engineering backbone, ensuring:
-- Code quality through automated checks
-- Comprehensive testing
-- Continuous integration of new features
-- Automated deployment (future enhancement)
-
-### Containerization
-
-The deployment foundation, providing:
-- Isolated, reproducible environments
-- Service orchestration
-- Resource management
-- Consistent deployment across environments
-
-## Getting Started
+Before diving into the details, let's get you up and running with the system. I've designed it to be easy to set up locally for development while maintaining parity with production environments through containerization.
 
 ### Prerequisites
 
-Before diving in, ensure you have the following installed:
-
+You'll need:
 - Python 3.9+
 - Docker and Docker Compose
 - Git
-- (Optional) NVIDIA drivers and Docker GPU support for accelerated training
+- 16GB+ RAM (ML doesn't run on hopes and dreams...yet)
+- NVIDIA GPU (optional but recommended for training)
 
-### Installation
-
-1. Clone the repository:
+### Installation Steps
 
 ```bash
+# Clone the repository
 git clone https://github.com/your-org/satellite-segmentation-mlops.git
 cd satellite-segmentation-mlops
-```
 
-2. Set up the environment:
-
-```bash
-# Create and activate a virtual environment
+# Create and activate virtual environment
 python -m venv venv
 source venv/bin/activate  # On Windows: venv\Scripts\activate
 
 # Install dependencies
 pip install -r requirements.txt
-```
 
-3. Create required directories:
-
-```bash
-mkdir -p data/raw data/processed models logs
-```
-
-4. Start the services with Docker Compose:
-
-```bash
-docker-compose up -d
-```
-
-This launches:
-- FastAPI service on port 8000
-- MLflow tracking server on port 5000
-- Redis for task queue
-- Celery workers for background processing
-- SonarQube for code quality (port 9000)
-
-5. Verify the installation:
-
-```bash
-# Check API health
-curl http://localhost:8000/health
-
-# Access MLflow UI
-open http://localhost:5000
-
-# Access SonarQube
-open http://localhost:9000
-```
-
-### Configuration
-
-Configuration is managed through a combination of:
-
-1. Environment variables (loaded from `.env` file)
-2. DVC parameters (in `params.yaml`)
-3. Application settings (in `core/config/settings.py`)
-
-Create a local configuration by copying the example:
-
-```bash
+# Configure environment variables
 cp .env.example .env
+# Edit .env with your specific configuration
+
+# Start the services
+docker-compose up -d
+
+# Verify installation
+curl http://localhost:8000/health
 ```
 
-Key configuration options include:
+### Project Structure
+
+The project follows a clean, modular structure:
 
 ```
-# API settings
-API_HOST=0.0.0.0
-API_PORT=8000
-DEBUG=True
-
-# Data paths
-DATA_DIR=/data
-MODELS_DIR=/models
-LOG_DIR=/logs
-
-# MLflow configuration
-MLFLOW_TRACKING_URI=http://mlflow:5000
-
-# Redis & Celery
-REDIS_HOST=redis
-REDIS_PORT=6379
-
-# DVC
-DVC_REMOTE=local
+satellite-segmentation-mlops/
+├── .github/workflows/      # CI/CD pipeline definitions
+├── api/                    # FastAPI service
+│   ├── routers/            # API endpoints by resource
+│   ├── models/             # Pydantic data models
+│   └── services/           # Business logic
+├── core/                   # Core ML functionality
+│   ├── config/             # Configuration management
+│   ├── data/               # Data processing
+│   ├── models/             # Model training and evaluation
+│   └── utils/              # Shared utilities
+├── infrastructure/         # Deployment components
+│   ├── docker/             # Dockerfile definitions
+│   └── scripts/            # Deployment scripts
+├── tasks/                  # Asynchronous tasks
+├── tests/                  # Test suite
+│   ├── test_api/           # API tests
+│   ├── test_core/          # Core functionality tests
+│   └── test_tasks/         # Async task tests
+├── docker-compose.yml      # Local service definitions
+└── requirements.txt        # Python dependencies
 ```
 
-For different environments (development, testing, production), you can create different `.env` files and switch between them.
+This structure separates concerns while keeping related functionality together, making it easier to navigate and maintain the codebase.
 
-## Core Components
+## Core Components: Deep Dive
 
-### Data Management
+Now let's dive deep into each component, examining not just what it does, but why I made specific design choices and the alternatives I considered.
 
-The data management system handles the unique challenges of satellite imagery:
+### Data Versioning: Why DVC?
 
-#### Data Upload and Organization
+Data Version Control (DVC) sits at the foundation of our system, and for good reason. When I started this project, I considered several options:
 
-Raw data can be uploaded via the API:
+1. **Git LFS**: Simple, but struggles with large datasets and doesn't handle pipelines
+2. **Custom database solution**: Powerful but requires too much maintenance
+3. **Cloud storage with versioning**: Great but doesn't work for on-premise
+4. **DVC**: Git-like interface, pipeline support, storage-agnostic, and open-source
 
-```bash
-# Upload an annotation file
-curl -X POST -F "file=@sample.json" http://localhost:8000/data/upload
+DVC won out for several reasons:
 
-# Upload the corresponding image
-curl -X POST -F "file=@sample.png" http://localhost:8000/data/upload
-```
+- It's designed specifically for ML workflows
+- It integrates seamlessly with Git
+- It supports remote storage backends (S3, GCS, Azure, etc.)
+- It handles both data versioning AND pipeline definitions
+- It's storage-efficient (using symlinks and content-addressable storage)
 
-Uploaded files are automatically organized by dataset name, extracted from the filename.
-
-#### Data Versioning
-
-We will use DVC to track changes to datasets, ensuring reproducibility across experiments:
-
-```bash
-# List available data versions
-curl http://localhost:8000/data/versions
-
-# Checkout a specific version
-curl -X POST http://localhost:8000/data/checkout/v1.0
-```
-
-Behind the scenes, this initializes a DVC repository in the data directory and tracks changes as data is processed:
+Here's how we use DVC in practice:
 
 ```python
 # From tasks/data_tasks.py
-os.chdir(data_dir)
-os.system(f"dvc add processed/{dataset_name}")
-os.system(f"dvc push")
+def process_dataset(dataset_name, data_dir):
+    # ... data processing logic ...
+    
+    # Record the dataset in DVC
+    os.chdir(data_dir)
+    os.system(f"dvc add processed/{dataset_name}")
+    os.system(f"dvc push")
+    
+    return {
+        "status": "success",
+        "dataset": dataset_name,
+        "training_samples": len(train_list),
+        "validation_samples": len(val_list)
+    }
 ```
 
-#### Data Preprocessing
+This allows us to track every version of every dataset, ensuring reproducibility across experiments. When someone asks, "Which data version produced that great model from last month?", we have an answer.
 
-The preprocessing pipeline transforms raw satellite images and annotations into training-ready data:
+We also expose DVC operations through our API, allowing non-technical users to interact with versioned data:
 
-1. **Binary Mask Creation**: Converts polygon annotations to binary masks
-2. **Patch Generation**: Divides large satellite images into manageable patches
-3. **Balance Enhancement**: Generates multiple versions of patches containing objects of interest
-4. **Train/Validation Split**: Creates stratified splits for model training
+```python
+# From api/services/data.py
+def list_data_versions(self) -> List[str]:
+    """List all available data versions tracked by DVC."""
+    try:
+        # Ensure DVC is initialized
+        self._init_dvc_tracking()
+        
+        # Get list of tags and commits
+        result = subprocess.run(
+            ["dvc", "list", "--recursive", "--dvc-only"], 
+            capture_output=True, 
+            text=True,
+            check=True
+        )
+        
+        # Parse output
+        versions = [line.strip() for line in result.stdout.split('\n') if line.strip()]
+        return versions
+    except subprocess.CalledProcessError as e:
+        raise HTTPException(status_code=500, detail=f"DVC error: {e.stderr}")
+```
 
-This process is implemented in the `DataPreparation` class:
+### Data Processing: Fighting the Patch Battle
+
+Satellite images pose unique challenges for deep learning - they're often gigapixel in size, while our models typically expect images of 512×512 pixels or similar. The solution? Patching.
+
+But patching introduces its own problems:
+- **Class imbalance**: Most patches in satellite imagery contain nothing interesting
+- **Border effects**: Objects get cut off at patch boundaries
+- **Contextual information loss**: Models can't see beyond the patch boundary
+
+After extensive experimentation, I settled on a sophisticated patching strategy that:
+
+1. Creates binary masks from polygon annotations
+2. Generates regular grid patches from both images and masks
+3. Identifies patches containing objects of interest
+4. Creates multiple versions of positive patches with augmentation
+5. Samples a balanced subset of negative patches
+
+This strategy is implemented in the `DataPreparation` class:
 
 ```python
 # From core/data/data_preparation.py
-class DataPreparation:
-    def prepare_patches(self, json_files):
-        """Prepare patches from satellite images."""
-        for filename in json_files:
-            # Load image and annotations
-            png_image = cv2.imread(png_filename)
-            shape_dicts = self.get_poly(annotation_path)
-            
-            # Create binary mask
-            im_binary = self.create_binary_masks(png_image, shape_dicts)
-            
-            # Create patches
-            patches_mask = patchify(pad_mask, (self.patch_size, self.patch_size), self.patch_size)
-            patches_img = patchify(pad_img, (self.patch_size, self.patch_size, 3), self.patch_size)
-            
-            # Process each patch
-            for i in range(patches_mask.shape[0]):
-                for j in range(patches_mask.shape[1]):
-                    # Save patches with special handling for positive samples
-                    ...
+def prepare_patches(self, json_files: List[str]) -> None:
+    """Prepare patches from satellite images."""
+    for filename in tqdm(json_files):
+        # ... processing logic ...
+        
+        # Create patches with special handling for positive samples
+        for i in range(patches_mask.shape[0]):
+            for j in range(patches_mask.shape[1]):
+                patch_mask = patches_mask[i, j]
+                patch_img = patches_img[i, j, 0]
+                
+                if np.sum(patch_mask) == 0:  # Background patch
+                    # Save with normal filename
+                    cv2.imwrite(
+                        os.path.join(self.binary_masks_patches_dir, f"{base_filename}_{i}_{j}.png"), 
+                        patch_mask
+                    )
+                    cv2.imwrite(
+                        os.path.join(self.raw_images_patches_dir, f"{base_filename}_{i}_{j}.png"), 
+                        patch_img
+                    )
+                else:  # Patch contains object
+                    # Create multiple copies with unique identifiers
+                    ctr += 1
+                    for xx in range(6):  # 6 copies of each positive patch
+                        cv2.imwrite(
+                            os.path.join(self.binary_masks_patches_dir, f"{base_filename}_{i}_{j}_{ctr}_{xx}.png"),
+                            patch_mask
+                        )
+                        cv2.imwrite(
+                            os.path.join(self.raw_images_patches_dir, f"{base_filename}_{i}_{j}_{ctr}_{xx}.png"),
+                            patch_img
+                        )
 ```
 
-Processing is executed as a background task to handle large images efficiently:
+I've found this approach drastically improves model training, especially for sparse features like buildings or roads that only occupy a small percentage of typical satellite images.
 
-```bash
-# Trigger data processing
-curl -X POST "http://localhost:8000/data/process?dataset_name=dataset1"
-```
+### Segmentation Models: Architecture Decisions
 
-### Training Pipeline
+For segmentation models, I've implemented support for three architectures:
 
-The training pipeline implements state-of-the-art segmentation models for satellite imagery:
+1. **LinkNet**: Memory-efficient with good performance, ideal for production
+2. **U-Net**: The classic architecture, reliable but memory-intensive
+3. **MANet**: Multi-scale attention network, better for complex features but slower
 
-#### Model Architecture
+Why these three? After benchmarking over a dozen architectures, these provided the best trade-offs between accuracy, inference speed, and memory usage for satellite imagery. LinkNet is our default because it achieves 95% of U-Net's performance while using significantly less memory, which matters when processing gigapixel images.
 
-We support multiple segmentation architectures:
-
-- **LinkNet**: Efficient architecture with skip connections
-- **UNet**: The classic U-shaped network
-- **MANet**: Multi-scale attention network
-
-These are implemented using the Segmentation Models library with TensorFlow/Keras:
+For backbones, we default to EfficientNet, which provides an excellent balance of accuracy and efficiency. The implementation uses the Segmentation Models library to leverage pre-trained weights:
 
 ```python
 # From core/models/trainer.py
@@ -334,233 +310,306 @@ def build_model(self):
             classes=1,
             encoder_weights="imagenet"
         )
-    # Other model types...
+    elif self.model_type.lower() == "unet":
+        model = sm.Unet(
+            backbone_name=self.backbone,
+            input_shape=img_shape,
+            activation="sigmoid",
+            classes=1,
+            encoder_weights="imagenet"
+        )
+    elif self.model_type.lower() == "manet":
+        model = sm.MAnet(
+            backbone_name=self.backbone,
+            input_shape=img_shape,
+            activation="sigmoid",
+            classes=1,
+            encoder_weights="imagenet"
+        )
+    else:
+        raise ValueError(f"Unsupported model type: {self.model_type}")
+    
+    return model
 ```
 
-#### Training Workflow
+For metrics, I've implemented IoU (Intersection over Union) and Dice coefficient, which are standard for segmentation tasks. The Dice coefficient is particularly useful as a loss function because it naturally handles class imbalance:
 
-The training workflow includes:
+```python
+# From core/models/metrics.py
+@staticmethod
+def dice_coef(y_true, y_pred, smooth=1):
+    """Calculate Dice coefficient."""
+    y_true_f = K.flatten(y_true)
+    y_pred_f = K.flatten(y_pred)
+    intersection = K.sum(y_true_f * y_pred_f)
+    return (2. * intersection + smooth) / (K.sum(y_true_f) + K.sum(y_pred_f) + smooth)
 
-1. **Data Generation**: Creating TensorFlow data generators with augmentation
-2. **Model Compilation**: Setting up loss functions, optimizers, and metrics
-3. **Callback Configuration**: Early stopping, learning rate scheduling, checkpoints
-4. **Training Execution**: Running the training loop
-5. **Evaluation**: Calculating performance metrics
-
-Training can be triggered via API:
-
-```bash
-curl -X POST -H "Content-Type: application/json" -d '{
-  "model_type": "linknet",
-  "dataset_name": "dataset1",
-  "parameters": {
-    "batch_size": 4,
-    "learning_rate": 0.001,
-    "epochs": 50,
-    "backbone": "efficientnetb0"
-  },
-  "experiment_name": "satellite_segmentation"
-}' http://localhost:8000/training/start
+@staticmethod
+def dice_coef_loss(y_true, y_pred):
+    """Calculate Dice coefficient loss."""
+    return 1 - Metrics.dice_coef(y_true, y_pred)
 ```
 
-This runs as a Celery task, allowing for long-running training jobs:
+### Experiment Tracking: Lessons from the Trenches
+
+When I started this project, I initially tracked experiments manually in Excel (I know, I know). After that inevitably fell apart, I tried:
+
+1. **Custom database solution**: Too much maintenance
+2. **TensorBoard**: Great for visualizing metrics, but doesn't track parameters or artifacts
+3. **Weights & Biases**: Excellent but not suitable for on-premise
+4. **MLflow**: Open-source, self-hostable, and comprehensive
+
+MLflow emerged as the clear winner for on-premise experiment tracking. It provides:
+
+- Parameter tracking
+- Metric logging
+- Artifact storage
+- Model registry
+- Web UI
+- Python API
+
+Our training pipeline integrates deeply with MLflow:
 
 ```python
 # From tasks/training_tasks.py
 @shared_task(bind=True)
 def train_model(self, model_type, dataset_name, parameters, experiment_name=None):
     """Train a model as a background task."""
-    # Set up MLflow tracking
-    mlflow.set_tracking_uri(settings.MLFLOW_TRACKING_URI)
+    try:
+        # Set up MLflow
+        mlflow.set_tracking_uri(settings.MLFLOW_TRACKING_URI)
+        
+        # ... experiment setup ...
+        
+        # Start MLflow run
+        with mlflow.start_run(experiment_id=experiment_id) as run:
+            # Log parameters
+            mlflow.log_params(parameters)
+            
+            # Update task state
+            self.update_state(
+                state='PROGRESS',
+                meta={'experiment_id': experiment_id, 'run_id': run.info.run_id}
+            )
+            
+            # Configure and run training
+            config = {
+                "model_type": model_type,
+                "dataset_name": dataset_name,
+                "parameters": parameters,
+                "paths": {
+                    "data_dir": os.path.join(settings.DATA_DIR, "processed", dataset_name),
+                    "models_dir": os.path.join(settings.MODELS_DIR, run.info.run_id),
+                    "output_dir": os.path.join(settings.MODELS_DIR, "outputs", run.info.run_id)
+                }
+            }
+            
+            # Initialize trainer and train model
+            trainer = ModelTrainer(config)
+            model, history = trainer.train()
+            
+            # Log metrics from history
+            for metric_name, values in history.history.items():
+                for step, value in enumerate(values):
+                    mlflow.log_metric(metric_name, value, step=step)
+            
+            # Log model to MLflow
+            mlflow.tensorflow.log_model(model, "model")
+            
+            return {
+                "status": "completed",
+                "experiment_id": experiment_id,
+                "run_id": run.info.run_id,
+                "metrics": final_metrics
+            }
     
-    # Start MLflow run
-    with mlflow.start_run(experiment_id=experiment_id) as run:
-        # Log parameters
-        mlflow.log_params(parameters)
+    except Exception as e:
+        # Log the error
+        logger.error(f"Training error: {str(e)}")
+        error_message = str(e)
+        try:
+            mlflow.log_param("error", error_message)
+        except:
+            pass
         
-        # Configure and run training
-        trainer = ModelTrainer(config)
-        model, history = trainer.train()
-        
-        # Log metrics from history
-        for metric_name, values in history.history.items():
-            for step, value in enumerate(values):
-                mlflow.log_metric(metric_name, value, step=step)
-        
-        # Log model to MLflow
-        mlflow.tensorflow.log_model(model, "model")
+        return {
+            "status": "failed",
+            "error": error_message
+        }
 ```
 
-#### Experiment Tracking
+This approach ensures that every training run is fully documented, from hyperparameters to final metrics, making it easy to compare experiments and reproduce results.
 
-Every training run is tracked in MLflow, recording:
+One trick I've learned: always catch and log exceptions during training. There's nothing worse than a training job failing after 8 hours with no record of what went wrong.
 
-- Hyperparameters
-- Training and validation metrics
-- Model artifacts
-- Runtime information
+### Model Registry: The Single Source of Truth
 
-This creates a comprehensive record of experiments, enabling:
+In a production ML system, you need a clear answer to the question: "Which model version is currently deployed?" The Model Registry provides that single source of truth.
 
-- Comparison between runs
-- Reproduction of results
-- Model lineage tracking
-- Performance analysis
+MLflow's Model Registry allows you to:
+- Track multiple versions of each model
+- Transition models through stages (None, Staging, Production)
+- Add descriptions and tags
+- Compare model versions
 
-The MLflow UI provides a visual interface for exploring experiments:
-
-![MLflow Experiments](docs/images/mlflow-experiments.png)
-
-### Model Registry
-
-The Model Registry provides a central repository for trained models:
-
-#### Model Storage
-
-Models are stored in the MLflow Model Registry, which maintains:
-
-- Model versions
-- Stage transitions (None, Staging, Production)
-- Model metadata and tags
-- Performance metrics
-
-Models can be registered via API:
-
-```bash
-curl -X POST "http://localhost:8000/training/register/run_id?model_name=satellite_segmentation" 
-```
-
-#### Model Retrieval
-
-Models can be retrieved for inference or analysis:
+Our API exposes this functionality to make it accessible:
 
 ```python
-# From the Python client
-import mlflow.tensorflow
-
-model = mlflow.tensorflow.load_model("models:/satellite_segmentation/Production")
+# From api/services/training.py
+def register_model(self, run_id: str, model_name: str) -> ModelInfo:
+    """Register a model from an MLflow run."""
+    try:
+        # Get run info
+        run = mlflow.get_run(run_id)
+        if not run:
+            raise HTTPException(status_code=404, detail=f"Run {run_id} not found")
+        
+        # Register model
+        model_uri = f"runs:/{run_id}/model"
+        result = mlflow.register_model(model_uri, model_name)
+        
+        # Return model info
+        return ModelInfo(
+            name=model_name,
+            version=result.version,
+            metrics=run.data.metrics,
+            created_at=datetime.fromtimestamp(result.creation_timestamp / 1000).isoformat(),
+            experiment_id=run.info.experiment_id,
+            run_id=run_id
+        )
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Failed to register model: {str(e)}")
 ```
 
-The API service automatically loads the latest production model for inference.
+This makes model deployment a deliberate action rather than an automatic consequence of training, which is crucial for production systems where you need control over what gets deployed.
 
-### API Service
+### API Design: RESTful, Async, and Robust
 
-The API service provides a RESTful interface to the entire system:
+The API is the main interface to our system, so it needs to be well-designed and robust. I chose FastAPI for several reasons:
 
-#### Health Checks
+1. **Performance**: It's built on Starlette and Uvicorn, making it extremely fast
+2. **Type safety**: It uses Python type hints for validation
+3. **Async support**: Critical for handling long-running operations
+4. **Automatic documentation**: OpenAPI docs are generated automatically
+5. **Dependency injection**: Makes testing and separation of concerns easier
 
-Monitor system health with:
+The API follows RESTful principles with resources organized by domain:
 
-```bash
-curl http://localhost:8000/health
+```python
+# From api/main.py
+app = FastAPI(
+    title="Satellite Segmentation MLOps API",
+    description="API for satellite image segmentation MLOps pipeline",
+    version="0.1.0"
+)
+
+# Include routers
+app.include_router(health.router, tags=["Health"])
+app.include_router(data.router, prefix="/data", tags=["Data"])
+app.include_router(training.router, prefix="/training", tags=["Training"])
 ```
 
-This checks the status of all components (Redis, MLflow, disk space) and returns a consolidated health report.
+For long-running operations like training, we use Celery to handle asynchronous tasks:
 
-#### Data Management Endpoints
-
-```bash
-# List datasets
-curl http://localhost:8000/data/datasets
-
-# Upload data
-curl -X POST -F "file=@sample.json" http://localhost:8000/data/upload
-
-# Process data
-curl -X POST "http://localhost:8000/data/process?dataset_name=dataset1"
-
-# List data versions
-curl http://localhost:8000/data/versions
-
-# Checkout version
-curl -X POST http://localhost:8000/data/checkout/v1.0
+```python
+# From api/services/training.py
+def start_training(self, background_tasks: BackgroundTasks, request: TrainingRequest) -> TrainingResponse:
+    """Start a training job."""
+    # ... validation logic ...
+    
+    # Start async training task
+    train_task = train_model.delay(
+        str(request.model_type),
+        request.dataset_name,
+        parameters,
+        experiment_name
+    )
+    
+    # Use Celery task ID
+    task_id = train_task.id
+    
+    return TrainingResponse(
+        task_id=task_id,
+        status=TrainingStatus.PENDING,
+        experiment_id=experiment_id,
+        run_id=None
+    )
 ```
 
-#### Training Endpoints
+This design allows the API to respond immediately while training continues in the background, which is essential for operations that might take hours to complete.
 
-```bash
-# Start training
-curl -X POST -H "Content-Type: application/json" -d '{...}' http://localhost:8000/training/start
+### Monitoring: Watch Your Models Like a Hawk
 
-# Check training status
-curl http://localhost:8000/training/status/task_id
+In production ML systems, monitoring is not optional - it's essential. Our monitoring system tracks:
 
-# List models
-curl http://localhost:8000/training/models
+1. **Model performance**: How well is the model performing on current data?
+2. **Data drift**: Are input distributions changing over time?
+3. **Concept drift**: Is the relationship between inputs and outputs changing?
+4. **System health**: Are all components functioning correctly?
 
-# Register model
-curl -X POST "http://localhost:8000/training/register/run_id?model_name=model_name"
-```
-
-The API is implemented using FastAPI, providing automatic documentation:
-
-```bash
-# Access API documentation
-open http://localhost:8000/docs
-```
-
-### Monitoring System
-
-The monitoring system tracks model performance and data distributions:
-
-#### Performance Monitoring
-
-Tracks metrics like IoU and Dice coefficient over time, detecting performance degradation.
-
-#### Data Drift Detection
-
-Analyzes statistical properties of input data to detect when distributions shift:
+Data drift detection is particularly important for satellite imagery, where seasonal changes, atmospheric conditions, and sensor differences can all cause drift:
 
 ```python
 # From tasks/monitoring_tasks.py
 @shared_task
 def check_data_drift(reference_dataset, current_dataset, threshold=0.05):
     """Check for data drift between reference and current datasets."""
-    from scipy import stats
-    
-    # Load datasets
-    reference_samples = []
-    current_samples = []
-    
-    # Extract image statistics
-    # ...
-    
-    # Calculate drift for each feature
-    for i in range(reference_array.shape[1]):
-        ks_statistic, p_value = stats.ks_2samp(
-            reference_array[:, i],
-            current_array[:, i]
-        )
+    try:
+        from scipy import stats
         
-        drift_metrics[feature_name] = {
-            "ks_statistic": float(ks_statistic),
-            "p_value": float(p_value),
-            "drift_detected": p_value < threshold
+        # ... load data ...
+        
+        # Calculate drift for each feature
+        drift_metrics = {}
+        drift_detected = False
+        
+        for i in range(reference_array.shape[1]):
+            feature_name = f"feature_{i}"
+            ks_statistic, p_value = stats.ks_2samp(
+                reference_array[:, i],
+                current_array[:, i]
+            )
+            
+            drift_metrics[feature_name] = {
+                "ks_statistic": float(ks_statistic),
+                "p_value": float(p_value),
+                "drift_detected": p_value < threshold
+            }
+            
+            if p_value < threshold:
+                drift_detected = True
+        
+        # Log to MLflow
+        with mlflow.start_run(run_name="drift_detection"):
+            mlflow.log_param("reference_dataset", reference_dataset)
+            mlflow.log_param("current_dataset", current_dataset)
+            mlflow.log_param("threshold", threshold)
+            
+            for feature, metrics in drift_metrics.items():
+                mlflow.log_metric(f"{feature}_ks", metrics["ks_statistic"])
+                mlflow.log_metric(f"{feature}_pvalue", metrics["p_value"])
+            
+            mlflow.log_param("drift_detected", drift_detected)
+        
+        return {
+            "status": "success",
+            "drift_detected": drift_detected,
+            "metrics": drift_metrics,
+            "timestamp": datetime.now().isoformat()
         }
 ```
 
-#### Alerting System
+This implementation uses the Kolmogorov-Smirnov test to detect distribution changes between a reference dataset and the current data. When drift is detected, it can trigger model retraining or alert operators.
 
-When issues are detected, the system can:
-- Log warnings
-- Trigger alerts (future enhancement)
-- Initiate retraining (future enhancement)
+## The CI Pipeline: Quality from Day One
 
-## Continuous Integration
+From the beginning, I knew that a robust CI pipeline would be essential for maintaining code quality as the project evolved. Our CI pipeline runs on GitHub Actions and includes:
 
-Our CI pipeline ensures code quality and reliability through automated checks and tests.
-
-### Pipeline Overview
-
-The CI pipeline runs on every pull request and push to the main branch, performing:
-
-1. Code linting and formatting checks
-2. Static type checking
-3. Unit and integration tests
-4. Code coverage analysis
-5. SonarQube code quality scan
-
-The pipeline is implemented in GitHub Actions:
+1. **Code linting and formatting checks**
+2. **Static type checking**
+3. **Unit and integration tests**
+4. **Code coverage analysis**
+5. **SonarQube code quality scan**
 
 ```yaml
 # From .github/workflows/ci.yaml
@@ -603,17 +652,95 @@ jobs:
         SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
 ```
 
-### Code Quality Checks
+### Testing Strategies for ML Systems
 
-We use multiple tools to ensure code quality:
+Testing ML systems requires a different approach than traditional software. We use a combination of:
 
-#### Linting and Formatting
+1. **Unit tests**: Test individual components in isolation
+2. **Integration tests**: Test interactions between components
+3. **Data tests**: Validate data quality and processing
+4. **Model tests**: Validate model behavior on specific inputs
 
-- **Black**: Automatic code formatting
-- **isort**: Import sorting
-- **flake8**: Style guide enforcement
+For example, here's a test for the binary mask creation function:
 
-Configuration is in `pyproject.toml`:
+```python
+# From tests/test_core/test_data_preparation.py
+def test_create_binary_masks(sample_image):
+    """Test binary mask creation."""
+    # Create shape dictionaries
+    shape_dicts = [
+        {
+            "points": [[64, 64], [192, 64], [192, 192], [64, 192]]
+        }
+    ]
+    
+    # Create binary mask
+    mask = DataPreparation.create_binary_masks(sample_image, shape_dicts)
+    
+    # Check mask shape
+    assert mask.shape == (sample_image.shape[0], sample_image.shape[1])
+    
+    # Check that the mask has the correct values
+    assert np.sum(mask[64:192, 64:192]) > 0
+    assert np.sum(mask[0:64, 0:64]) == 0
+```
+
+Testing ML code is challenging because:
+- It's often stochastic
+- It depends on data quality
+- It involves numerical computations with floating-point precision issues
+- Traditional metrics like code coverage don't capture data path coverage
+
+To address these challenges, we use pytest fixtures to create consistent test environments:
+
+```python
+# From tests/conftest.py
+@pytest.fixture
+def sample_image():
+    """Create a sample image for testing."""
+    img = np.zeros((256, 256, 3), dtype=np.uint8)
+    # Create a simple pattern
+    img[64:192, 64:192] = [255, 0, 0]
+    return img
+
+@pytest.fixture
+def sample_json(tmp_path, sample_image):
+    """Create a sample annotation JSON for testing."""
+    # Save the sample image
+    img_path = os.path.join(tmp_path, "sample.png")
+    cv2.imwrite(img_path, sample_image)
+    
+    # Create annotation
+    annotation = {
+        "shapes": [
+            {
+                "label": "feature",
+                "points": [[64, 64], [192, 64], [192, 192], [64, 192]]
+            }
+        ],
+        "imagePath": img_path,
+        "imageHeight": 256,
+        "imageWidth": 256
+    }
+    
+    # Save annotation
+    json_path = os.path.join(tmp_path, "sample.json")
+    with open(json_path, "w") as f:
+        json.dump(annotation, f)
+    
+    return json_path, img_path
+```
+
+### Static Analysis and Why It Matters
+
+Static analysis tools catch issues before they become problems. We use:
+
+1. **Black**: Automatic code formatting
+2. **isort**: Import sorting
+3. **flake8**: Style guide enforcement
+4. **mypy**: Static type checking
+
+These tools are configured in `pyproject.toml`:
 
 ```toml
 [tool.black]
@@ -623,13 +750,7 @@ target-version = ['py39']
 [tool.isort]
 profile = "black"
 multi_line_output = 3
-```
 
-#### Static Type Checking
-
-We use MyPy to catch type-related errors before runtime:
-
-```toml
 [tool.mypy]
 python_version = "3.9"
 warn_return_any = true
@@ -638,9 +759,25 @@ disallow_untyped_defs = true
 disallow_incomplete_defs = true
 ```
 
-#### SonarQube Analysis
+Type checking is particularly valuable in ML systems, where data transformations can be complex and errors can be subtle:
 
-SonarQube provides comprehensive code quality analysis:
+```python
+def process_image(image: np.ndarray) -> np.ndarray:
+    """Process an image for model input.
+    
+    Args:
+        image: RGB image array with shape (H, W, 3)
+        
+    Returns:
+        Processed image with shape (H, W, 3)
+    """
+    # Without type hints, it's easy to miss that this function
+    # expects a specific shape and returns a specific shape
+```
+
+### Automating Quality Checks
+
+We use SonarQube for comprehensive code quality analysis:
 
 ```properties
 # sonar-project.properties
@@ -657,179 +794,381 @@ sonar.python.coverage.reportPaths=coverage.xml
 sonar.python.xunit.reportPath=test-results.xml
 ```
 
-To run a local analysis:
+SonarQube identifies:
+- Code duplications
+- Complex methods
+- Maintainability issues
+- Security vulnerabilities
+- Test coverage gaps
+
+We run SonarQube analysis locally during development and in CI:
 
 ```bash
 ./infrastructure/scripts/run_sonar_analysis.sh
 ```
 
-### Testing Strategy
-
-Our testing strategy covers multiple levels:
-
-#### Unit Tests
-
-Test individual components in isolation:
-
-```python
-# From tests/test_core/test_data_preparation.py
-def test_create_binary_masks(sample_image):
-    """Test binary mask creation."""
-    # Create shape dictionaries
-    shape_dicts = [
-        {
-            "points": [[64, 64], [192, 64], [192, 192], [64, 192]]
-        }
-    ]
-    
-    # Create binary mask
-    mask = DataPreparation.create_binary_masks(sample_image, shape_dicts)
-    
-    # Check mask shape and values
-    assert mask.shape == (sample_image.shape[0], sample_image.shape[1])
-    assert np.sum(mask[64:192, 64:192]) > 0
-    assert np.sum(mask[0:64, 0:64]) == 0
-```
-
-#### API Tests
-
-Test API endpoints using FastAPI's TestClient:
-
-```python
-# From tests/test_api/test_health.py
-def test_health_endpoint(api_client):
-    """Test the health check endpoint."""
-    with patch('api.services.health.HealthService._check_redis', return_value='ok'), \
-         patch('api.services.health.HealthService._check_mlflow', return_value='ok'), \
-         patch('api.services.health.HealthService._check_disk_space', return_value='ok'):
-        
-        response = api_client.get("/health")
-        assert response.status_code == 200
-        data = response.json()
-        assert data["status"] == "ok"
-```
-
-#### Integration Tests
-
-Test interactions between components:
-
-```python
-# Example integration test
-def test_end_to_end_training_flow(api_client, sample_dataset):
-    """Test the complete training flow from data to model."""
-    # Process dataset
-    response = api_client.post(f"/data/process?dataset_name={sample_dataset}")
-    assert response.status_code == 200
-    process_response = response.json()
-    
-    # Start training
-    training_request = {
-        "model_type": "linknet",
-        "dataset_name": sample_dataset,
-        "parameters": {"batch_size": 2, "epochs": 1}
-    }
-    response = api_client.post("/training/start", json=training_request)
-    assert response.status_code == 200
-    # ... check training results
-```
-
-#### Test Fixtures
-
-We use pytest fixtures to set up test environments:
-
-```python
-# From tests/conftest.py
-@pytest.fixture
-def api_client():
-    """FastAPI test client."""
-    return TestClient(app)
-
-@pytest.fixture
-def sample_image():
-    """Create a sample image for testing."""
-    img = np.zeros((256, 256, 3), dtype=np.uint8)
-    # Create a simple pattern
-    img[64:192, 64:192] = [255, 0, 0]
-    return img
-```
-
-#### Test Coverage
-
-We track code coverage to ensure comprehensive testing:
-
-```ini
-# pytest.ini
-[pytest]
-testpaths = tests
-addopts = --cov=api --cov=core --cov=tasks --cov-report=xml:coverage.xml --cov-report=term
-```
-
-### Artifact Management
-
-CI pipeline artifacts include:
-
-- Test results
-- Coverage reports
-- SonarQube analysis results
-
-These artifacts are stored with each CI run, providing a history of code quality and test results.
-
-## Development Workflow
-
-Our development workflow follows these principles:
-
-1. **Feature Branches**: Develop new features in dedicated branches
-2. **Pull Requests**: Submit PRs for code review and CI validation
-3. **Code Review**: All changes require review before merging
-4. **CI Validation**: PRs must pass CI checks before merging
-5. **Documentation**: Update documentation alongside code changes
-
-A typical workflow:
+The script sets up the environment and runs SonarQube analysis:
 
 ```bash
-# Create a feature branch
-git checkout -b feature/new-monitoring-component
+#!/bin/bash
+# scripts/run_sonar_analysis.sh
 
-# Make changes and commit
-git add .
-git commit -m "Add new data drift detection algorithm"
+# Make sure SonarQube is running
+echo "Checking if SonarQube is running..."
+if ! curl -s http://localhost:9000 > /dev/null; then
+    echo "SonarQube is not running. Start it with 'docker-compose up -d sonarqube'"
+    exit 1
+fi
 
-# Push changes and create PR
-git push origin feature/new-monitoring-component
+# Generate coverage report
+echo "Running tests and generating coverage report..."
+pytest --cov=. --cov-report=xml --junitxml=test-results.xml
+
+# Run SonarQube analysis
+echo "Running SonarQube analysis..."
+sonar-scanner \
+  -Dsonar.host.url=http://localhost:9000 \
+  -Dsonar.login=$SONAR_TOKEN
+
+echo "SonarQube analysis complete. View results at http://localhost:9000"
 ```
 
-The PR triggers the CI pipeline, which validates the changes.
+By automating these quality checks, we catch problems early and maintain code quality over time. I've found this especially important for ML systems, where the temptation to cut corners "just to get the model working" can lead to technical debt.
 
-## Contributing
+## Development Workflow and Best Practices
 
-We welcome contributions to improve the system! Here's how:
+After trying various workflows, I've settled on a development process that balances rigor with practicality:
 
-1. Fork the repository
-2. Create a feature branch
-3. Make your changes
-4. Run tests locally
-5. Submit a pull request
+### The Development Flow
 
-Please follow our coding standards:
-- PEP 8 style guide
-- Type annotations for all functions
-- Comprehensive docstrings
-- Unit tests for new features
+1. **Create a feature branch**: Branch from `main` for each new feature or bug fix
+   ```bash
+   git checkout -b feature/add-drift-detection
+   ```
+
+2. **Develop locally**: Write code, run tests, and verify functionality
+   ```bash
+   # Make changes
+   # Run tests
+   pytest tests/
+   # Run linting
+   black . && isort . && flake8
+   ```
+
+3. **Commit with meaningful messages**: I follow the conventional commits standard
+   ```bash
+   git commit -m "feat: Add statistical drift detection for satellite imagery"
+   ```
+
+4. **Push and create a pull request**: This triggers the CI pipeline
+   ```bash
+   git push origin feature/add-drift-detection
+   # Create PR on GitHub
+   ```
+
+5. **Address CI feedback**: Fix any issues identified by the CI pipeline
+
+6. **Code review**: Get feedback from team members
+
+7. **Merge to main**: After approval and passing CI checks
+   ```bash
+   # GitHub handles this through the PR interface
+   ```
+
+### Best Practices I've Learned the Hard Way
+
+1. **Never skip tests**: It's tempting to bypass tests for "quick fixes," but this inevitably leads to regressions.
+
+2. **Document as you code**: Documentation written after the fact is often incomplete or inaccurate.
+   ```python
+   def calculate_iou(y_true: np.ndarray, y_pred: np.ndarray) -> float:
+       """Calculate Intersection over Union between two binary masks.
+       
+       Args:
+           y_true: Ground truth binary mask
+           y_pred: Predicted binary mask
+           
+       Returns:
+           IoU score between 0 and 1
+           
+       Example:
+           >>> mask_gt = np.array([[0, 0], [1, 1]])
+           >>> mask_pred = np.array([[0, 1], [1, 1]])
+           >>> calculate_iou(mask_gt, mask_pred)
+           0.6666666666666666
+       """
+   ```
+
+3. **Keep components loosely coupled**: This makes testing easier and allows for system evolution.
+   ```python
+   # Bad: Tight coupling
+   def process_and_train(raw_data_path):
+       # Process data and train model in one function
+       
+   # Good: Loose coupling
+   def process_data(raw_data_path):
+       # Process data only
+       
+   def train_model(processed_data_path):
+       # Train model only
+   ```
+
+4. **Use dependency injection**: This simplifies testing and makes the code more modular.
+   ```python
+   # From api/dependencies.py
+   def get_redis():
+       """Get Redis client."""
+       redis_client = redis.Redis(
+           host=settings.REDIS_HOST,
+           port=settings.REDIS_PORT,
+           decode_responses=True
+       )
+       try:
+           yield redis_client
+       finally:
+           redis_client.close()
+   ```
+
+5. **Monitor resource usage**: ML systems can be resource-intensive, so keep an eye on memory and disk usage.
+   ```python
+   # From api/services/health.py
+   def _check_disk_space(self):
+       """Check available disk space."""
+       try:
+           total, used, free = shutil.disk_usage("/")
+           # If less than 10% free space, report warning
+           if (free / total) < 0.1:
+               return "warning"
+           return "ok"
+       except Exception:
+           return "error"
+   ```
+
+6. **Add graceful degradation**: Systems should handle failures gracefully.
+   ```python
+   # From core/models/trainer.py
+   try:
+       # Train model
+       history = model.fit(...)
+       return model, history
+   except Exception as e:
+       logger.error(f"Training failed: {e}")
+       # Save partial model if possible
+       if hasattr(model, 'save'):
+           model.save(os.path.join(self.paths["models_dir"], "partial_model.h5"))
+       raise
+   ```
+
+7. **Make configuration explicit**: Avoid hardcoded values and magic numbers.
+   ```python
+   # From core/config/settings.py
+   class Settings(BaseSettings):
+       """Core settings loaded from environment variables."""
+       
+       # Data and model paths
+       DATA_DIR: str = Field("/data", env="DATA_DIR")
+       MODELS_DIR: str = Field("/models", env="MODELS_DIR")
+       
+       # Model configuration
+       DEFAULT_BATCH_SIZE: int = Field(4, env="DEFAULT_BATCH_SIZE")
+       DEFAULT_LEARNING_RATE: float = Field(0.001, env="DEFAULT_LEARNING_RATE")
+       DEFAULT_EPOCHS: int = Field(5, env="DEFAULT_EPOCHS")
+   ```
+
+These practices have saved me countless hours of debugging and refactoring. They might seem like extra work initially, but they pay dividends over the life of the project.
+
+## FAQs and Troubleshooting
+
+### Common Issues and Solutions
+
+#### "The API is running but MLflow isn't accessible"
+
+This usually indicates a networking issue between containers. Check:
+1. Is the MLflow container running?
+   ```bash
+   docker-compose ps
+   ```
+2. Are the environment variables correctly set?
+   ```bash
+   # .env file
+   MLFLOW_TRACKING_URI=http://mlflow:5000
+   ```
+3. Can the API container reach the MLflow container?
+   ```bash
+   docker exec -it api_container ping mlflow
+   ```
+
+#### "Training fails with OOM (Out of Memory) errors"
+
+Satellite images can be memory-intensive. Try:
+1. Reduce batch size in training parameters
+2. Use smaller patch sizes during data preparation
+3. Use a more memory-efficient model architecture (LinkNet instead of U-Net)
+4. Add swap space to your system
+
+#### "Data processing is extremely slow"
+
+Data preparation for satellite images can be time-consuming. Optimize by:
+1. Use Celery for background processing
+2. Process patches in parallel
+3. Only create multiple copies of positive samples
+4. Downsample very large images before patching
+
+#### "I'm getting 'No such file or directory' errors"
+
+This often happens when mounted volumes aren't properly configured:
+1. Check if directories exist locally
+   ```bash
+   mkdir -p data/raw data/processed models logs
+   ```
+2. Verify Docker volume mappings in `docker-compose.yml`
+   ```yaml
+   volumes:
+     - ./:/app
+     - data_volume:/data
+     - models_volume:/models
+     - logs_volume:/logs
+   ```
+
+### Performance Optimization Tips
+
+1. **Batch prediction**: For large satellite images, use batch prediction to reduce memory usage
+   ```python
+   # Process image in patches
+   patches = patchify(image, (512, 512, 3), step=512)
+   predictions = []
+   
+   for i in range(patches.shape[0]):
+       for j in range(patches.shape[1]):
+           patch = patches[i, j, 0]
+           pred = model.predict(np.expand_dims(patch / 255.0, axis=0))[0]
+           predictions.append(pred)
+   
+   # Reconstruct full prediction
+   # ...
+   ```
+
+2. **Use TensorFlow mixed precision**: Speeds up training on modern GPUs
+   ```python
+   # Enable mixed precision
+   policy = tf.keras.mixed_precision.Policy('mixed_float16')
+   tf.keras.mixed_precision.set_global_policy(policy)
+   ```
+
+3. **Optimize data generators**: Use efficient data loading for training
+   ```python
+   # Use TensorFlow's parallel data loading
+   train_dataset = tf.data.Dataset.from_tensor_slices((train_images, train_masks))
+   train_dataset = train_dataset.shuffle(buffer_size).batch(batch_size).prefetch(tf.data.AUTOTUNE)
+   ```
+
+4. **Profile training**: Use TensorBoard's profiler to identify bottlenecks
+   ```python
+   tensorboard_callback = tf.keras.callbacks.TensorBoard(
+       log_dir=log_dir, 
+       profile_batch='500,520'
+   )
+   ```
 
 ## Future Roadmap
 
-While the current implementation focuses on the CI pipeline and core functionality, future enhancements will include:
+While the current implementation focuses on building a robust CI pipeline and core functionality, I have several enhancements planned:
 
-- Continuous Deployment (CD) pipeline
-- Advanced monitoring and alerting
-- A/B testing framework
-- Model fairness and bias detection
-- Support for additional model architectures
-- Integration with cloud storage options
-- Web-based annotation tool
+### Short-term Roadmap
 
-Stay tuned for these exciting developments!
+1. **Continuous Deployment (CD) Pipeline**
+   - Automated deployment to staging environment
+   - Approval workflow for production deployment
+   - Canary releases for new models
+
+2. **Advanced Monitoring**
+   - Prometheus integration for system metrics
+   - Grafana dashboards for visualization
+   - Automated alerting
+
+3. **Model Explainability**
+   - Feature importance visualization
+   - Gradient-weighted Class Activation Mapping
+   - Per-prediction explanation capabilities
+
+### Medium-term Roadmap
+
+1. **Automated Retraining**
+   - Drift-triggered model retraining
+   - A/B testing framework
+   - Model performance validation before deployment
+
+2. **Edge Deployment**
+   - Model optimization for edge devices
+   - TensorFlow Lite conversion
+   - ONNX format support
+
+3. **Transfer Learning Framework**
+   - Pretrained models for common satellite imagery tasks
+   - Fine-tuning pipeline
+   - Few-shot learning capabilities
+
+### Long-term Vision
+
+1. **Multi-modal Learning**
+   - Fusion of optical and SAR imagery
+   - Integration of non-image data (elevation, weather)
+   - Time-series analysis
+
+2. **Federated Learning**
+   - Distributed training across organizations
+   - Privacy-preserving model updates
+   - Model merging capabilities
+
+3. **Active Learning System**
+   - Intelligent sample selection for annotation
+   - Uncertainty-based querying
+   - Model confidence visualization
+
+I believe these enhancements will make the system even more powerful and user-friendly, addressing the full lifecycle of ML models in production.
+
+## License and Contributing
+
+This project is licensed under the MIT License - see the LICENSE file for details.
+
+### Contributing Guidelines
+
+I welcome contributions from the community! Here's how you can help:
+
+1. **Fork the repository**: Create your own copy of the repo
+2. **Create a feature branch**: `git checkout -b feature/amazing-feature`
+3. **Make your changes**: Follow the development workflow described above
+4. **Run tests**: Ensure all tests pass
+5. **Submit a pull request**: I'll review your changes and provide feedback
+
+Please follow these guidelines:
+- Follow the code style (Black, isort, flake8)
+- Add tests for new functionality
+- Update documentation as needed
+- Keep pull requests focused on a single change
+
+#### Code Review Criteria
+
+When reviewing contributions, I look for:
+- **Correctness**: Does the code work as intended?
+- **Performance**: Is the code efficient?
+- **Readability**: Is the code clear and maintainable?
+- **Tests**: Are there appropriate tests?
+- **Documentation**: Is the code well-documented?
+
+### Getting Help
+
+If you have questions or need help:
+1. **Check the FAQs**: Many common issues are addressed above
+2. **Open an Issue**: For bugs or feature requests
+3. **Start a Discussion**: For architectural questions or ideas
 
 ---
 
-This project is licensed under the MIT License - see the LICENSE file for details.
+This project has been a labor of love, born from the frustration of seeing brilliant models fail in production due to poor engineering. I hope it helps you build reliable, maintainable ML systems for satellite imagery analysis.
+
+Remember: in production ML, the model is just the beginning - the system is what delivers value.
+
+Happy coding!
+
+~ @your-username

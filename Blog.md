@@ -1,9 +1,5 @@
 # High-Resolution Satellite Image Segmentation MLOps Pipeline
 
-![GitHub Actions Workflow Status](https://img.shields.io/github/actions/workflow/status/your-org/satellite-segmentation-mlops/ci.yaml?branch=main)
-![Python Version](https://img.shields.io/badge/python-3.9-blue)
-![TensorFlow](https://img.shields.io/badge/TensorFlow-2.9-orange)
-![License](https://img.shields.io/badge/license-MIT-green)
 
 ## Table of Contents
 

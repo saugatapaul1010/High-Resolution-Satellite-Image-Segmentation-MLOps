@@ -1,0 +1,79 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 800" font-family="'Segoe UI', Roboto, Helvetica, Arial, sans-serif">
+  <!-- Background -->
+  <rect width="1000" height="800" fill="#f8f9fa" />
+  
+  <!-- Title -->
+  <text x="500" y="50" text-anchor="middle" font-size="28" font-weight="bold" fill="#212529">Satellite Image Data Processing Pipeline</text>
+  
+  <!-- Satellite Image Acquisition -->
+  <g>
+    <rect x="100" y="100" width="800" height="120" rx="8" fill="#E3F2FD" stroke="#2196F3" stroke-width="2" />
+    <text x="500" y="125" text-anchor="middle" font-size="18" font-weight="bold" fill="#0D47A1">Satellite Image Acquisition</text>
+    
+    <!-- Components -->
+    <g>
+      <rect x="130" y="150" width="160" height="50" rx="5" fill="#ffffff" stroke="#2196F3" stroke-width="1.5" />
+      <text x="210" y="180" text-anchor="middle" font-size="14" font-weight="bold" fill="#0D47A1">Raw Satellite Images</text>
+      
+      <rect x="370" y="150" width="160" height="50" rx="5" fill="#ffffff" stroke="#2196F3" stroke-width="1.5" />
+      <text x="450" y="180" text-anchor="middle" font-size="14" font-weight="bold" fill="#0D47A1">Image Annotations</text>
+      
+      <rect x="610" y="150" width="160" height="50" rx="5" fill="#ffffff" stroke="#2196F3" stroke-width="1.5" />
+      <text x="690" y="180" text-anchor="middle" font-size="14" font-weight="bold" fill="#0D47A1">Metadata Storage</text>
+      
+      <!-- Connections -->
+      <path d="M290 175 L370 175" stroke="#2196F3" stroke-width="2" fill="none" />
+      <polygon points="370,175 364,171 364,179" fill="#2196F3" />
+      
+      <path d="M530 175 L610 175" stroke="#2196F3" stroke-width="2" fill="none" />
+      <polygon points="610,175 604,171 604,179" fill="#2196F3" />
+    </g>
+  </g>
+  
+  <!-- Data Versioning -->
+  <g>
+    <rect x="100" y="250" width="800" height="120" rx="8" fill="#E3F2FD" stroke="#2196F3" stroke-width="2" />
+    <text x="500" y="275" text-anchor="middle" font-size="18" font-weight="bold" fill="#0D47A1">Data Versioning (DVC)</text>
+    
+    <!-- Components -->
+    <g>
+      <rect x="130" y="300" width="160" height="50" rx="5" fill="#ffffff" stroke="#2196F3" stroke-width="1.5" />
+      <text x="210" y="330" text-anchor="middle" font-size="14" font-weight="bold" fill="#0D47A1">Local Git Repository</text>
+      
+      <rect x="370" y="300" width="160" height="50" rx="5" fill="#ffffff" stroke="#2196F3" stroke-width="1.5" />
+      <text x="450" y="330" text-anchor="middle" font-size="14" font-weight="bold" fill="#0D47A1">DVC Cache Storage</text>
+      
+      <rect x="610" y="300" width="160" height="50" rx="5" fill="#ffffff" stroke="#2196F3" stroke-width="1.5" />
+      <text x="690" y="330" text-anchor="middle" font-size="14" font-weight="bold" fill="#0D47A1">Remote Data Storage</text>
+      
+      <!-- Connections -->
+      <path d="M290 325 L370 325" stroke="#2196F3" stroke-width="2" fill="none" />
+      <polygon points="370,325 364,321 364,329" fill="#2196F3" />
+      
+      <path d="M530 325 L610 325" stroke="#2196F3" stroke-width="2" fill="none" />
+      <polygon points="610,325 604,321 604,329" fill="#2196F3" />
+      
+      <!-- Vertical connections from acquisition to versioning -->
+      <path d="M210 200 L210 300" stroke="#2196F3" stroke-width="2" fill="none" stroke-dasharray="5,5" />
+      <path d="M450 200 L450 300" stroke="#2196F3" stroke-width="2" fill="none" stroke-dasharray="5,5" />
+      <path d="M690 200 L690 300" stroke="#2196F3" stroke-width="2" fill="none" stroke-dasharray="5,5" />
+    </g>
+  </g>
+  
+  <!-- Data Processing -->
+  <g>
+    <rect x="100" y="400" width="800" height="150" rx="8" fill="#E8F5E9" stroke="#4CAF50" stroke-width="2" />
+    <text x="500" y="425" text-anchor="middle" font-size="18" font-weight="bold" fill="#1B5E20">Data Processing</text>
+    
+    <!-- Components -->
+    <g>
+      <rect x="130" y="450" width="160" height="80" rx="5" fill="#ffffff" stroke="#4CAF50" stroke-width="1.5" />
+      <text x="210" y="480" text-anchor="middle" font-size="14" font-weight="bold" fill="#1B5E20">Binary Mask Creation</text>
+      <text x="210" y="500" text-anchor="middle" font-size="12" fill="#1B5E20">OpenCV Polygon Filling</text>
+      
+      <rect x="370" y="450" width="160" height="80" rx="5" fill="#ffffff" stroke="#4CAF50" stroke-width="1.5" />
+      <text x="450" y="480" text-anchor="middle" font-size="14" font-weight="bold" fill="#1B5E20">Patch Generation</text>
+      <text x="450" y="500" text-anchor="middle" font-size="12" fill="#1B5E20">512×512 Patches</text>
+      
+      <rect x="610" y="450" width="160" height="80" rx="5" fill="#ffffff" stroke="#4CAF50" stroke-width="1.5" />
+      <text x="690" y="480" text-anchor="middle

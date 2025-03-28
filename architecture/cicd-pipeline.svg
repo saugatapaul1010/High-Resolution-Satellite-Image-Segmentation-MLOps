@@ -1,0 +1,205 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 900" font-family="'Segoe UI', Roboto, Helvetica, Arial, sans-serif">
+  <!-- Background -->
+  <rect width="1000" height="900" fill="#f8f9fa" />
+  
+  <!-- Title -->
+  <text x="500" y="50" text-anchor="middle" font-size="28" font-weight="bold" fill="#212529">CI/CD Pipeline for Satellite Image Segmentation</text>
+  
+  <!-- Development -->
+  <g>
+    <rect x="100" y="100" width="800" height="120" rx="8" fill="#FCE4EC" stroke="#E91E63" stroke-width="2" />
+    <text x="500" y="125" text-anchor="middle" font-size="18" font-weight="bold" fill="#880E4F">Development Workflow</text>
+    
+    <!-- Components -->
+    <g>
+      <rect x="130" y="150" width="160" height="50" rx="5" fill="#ffffff" stroke="#E91E63" stroke-width="1.5" />
+      <text x="210" y="175" text-anchor="middle" font-size="14" font-weight="bold" fill="#880E4F">Local Development</text>
+      <text x="210" y="195" text-anchor="middle" font-size="12" fill="#880E4F">Feature Branch</text>
+      
+      <rect x="350" y="150" width="160" height="50" rx="5" fill="#ffffff" stroke="#E91E63" stroke-width="1.5" />
+      <text x="430" y="175" text-anchor="middle" font-size="14" font-weight="bold" fill="#880E4F">Code Review</text>
+      <text x="430" y="195" text-anchor="middle" font-size="12" fill="#880E4F">Pull Request</text>
+      
+      <rect x="570" y="150" width="160" height="50" rx="5" fill="#ffffff" stroke="#E91E63" stroke-width="1.5" />
+      <text x="650" y="175" text-anchor="middle" font-size="14" font-weight="bold" fill="#880E4F">Merge</text>
+      <text x="650" y="195" text-anchor="middle" font-size="12" fill="#880E4F">Development Branch</text>
+      
+      <!-- Connections -->
+      <path d="M290 175 L350 175" stroke="#E91E63" stroke-width="2" fill="none" />
+      <polygon points="350,175 344,171 344,179" fill="#E91E63" />
+      
+      <path d="M510 175 L570 175" stroke="#E91E63" stroke-width="2" fill="none" />
+      <polygon points="570,175 564,171 564,179" fill="#E91E63" />
+      
+      <rect x="790" y="150" width="80" height="50" rx="5" fill="#ffffff" stroke="#E91E63" stroke-width="1.5" />
+      <text x="830" y="175" text-anchor="middle" font-size="14" font-weight="bold" fill="#880E4F">Git</text>
+      <text x="830" y="195" text-anchor="middle" font-size="12" fill="#880E4F">Version Control</text>
+      
+      <path d="M730 175 L790 175" stroke="#E91E63" stroke-width="2" fill="none" />
+      <polygon points="790,175 784,171 784,179" fill="#E91E63" />
+    </g>
+  </g>
+  
+  <!-- Continuous Integration -->
+  <g>
+    <rect x="100" y="250" width="800" height="200" rx="8" fill="#FCE4EC" stroke="#E91E63" stroke-width="2" />
+    <text x="500" y="275" text-anchor="middle" font-size="18" font-weight="bold" fill="#880E4F">Continuous Integration (CI)</text>
+    
+    <!-- Components -->
+    <g>
+      <!-- Code Quality -->
+      <rect x="130" y="300" width="160" height="130" rx="5" fill="#ffffff" stroke="#E91E63" stroke-width="1.5" />
+      <text x="210" y="325" text-anchor="middle" font-size="14" font-weight="bold" fill="#880E4F">Code Quality</text>
+      <text x="210" y="345" text-anchor="middle" font-size="12" fill="#880E4F">• Black (Formatting)</text>
+      <text x="210" y="365" text-anchor="middle" font-size="12" fill="#880E4F">• isort (Import Sorting)</text>
+      <text x="210" y="385" text-anchor="middle" font-size="12" fill="#880E4F">• flake8 (Linting)</text>
+      <text x="210" y="405" text-anchor="middle" font-size="12" fill="#880E4F">• mypy (Type Checking)</text>
+      
+      <!-- Unit Testing -->
+      <rect x="350" y="300" width="160" height="130" rx="5" fill="#ffffff" stroke="#E91E63" stroke-width="1.5" />
+      <text x="430" y="325" text-anchor="middle" font-size="14" font-weight="bold" fill="#880E4F">Unit Testing</text>
+      <text x="430" y="345" text-anchor="middle" font-size="12" fill="#880E4F">• pytest</text>
+      <text x="430" y="365" text-anchor="middle" font-size="12" fill="#880E4F">• Coverage Reporting</text>
+      <text x="430" y="385" text-anchor="middle" font-size="12" fill="#880E4F">• Component Tests</text>
+      <text x="430" y="405" text-anchor="middle" font-size="12" fill="#880E4F">• Mocked Dependencies</text>
+      
+      <!-- Integration Testing -->
+      <rect x="570" y="300" width="160" height="130" rx="5" fill="#ffffff" stroke="#E91E63" stroke-width="1.5" />
+      <text x="650" y="325" text-anchor="middle" font-size="14" font-weight="bold" fill="#880E4F">Integration Testing</text>
+      <text x="650" y="345" text-anchor="middle" font-size="12" fill="#880E4F">• API Tests</text>
+      <text x="650" y="365" text-anchor="middle" font-size="12" fill="#880E4F">• End-to-End Tests</text>
+      <text x="650" y="385" text-anchor="middle" font-size="12" fill="#880E4F">• Container Tests</text>
+      <text x="650" y="405" text-anchor="middle" font-size="12" fill="#880E4F">• Workflow Tests</text>
+      
+      <!-- SonarQube Analysis -->
+      <rect x="790" y="300" width="80" height="130" rx="5" fill="#ffffff" stroke="#E91E63" stroke-width="1.5" />
+      <text x="830" y="355" text-anchor="middle" font-size="14" font-weight="bold" fill="#880E4F" transform="rotate(-90, 830, 355)">SonarQube Analysis</text>
+      
+      <!-- Connections -->
+      <path d="M290 365 L350 365" stroke="#E91E63" stroke-width="2" fill="none" />
+      <polygon points="350,365 344,361 344,369" fill="#E91E63" />
+      
+      <path d="M510 365 L570 365" stroke="#E91E63" stroke-width="2" fill="none" />
+      <polygon points="570,365 564,361 564,369" fill="#E91E63" />
+      
+      <path d="M730 365 L790 365" stroke="#E91E63" stroke-width="2" fill="none" />
+      <polygon points="790,365 784,361 784,369" fill="#E91E63" />
+      
+      <!-- Vertical connection from development to CI -->
+      <path d="M650 200 L650 250" stroke="#E91E63" stroke-width="2" fill="none" />
+      <polygon points="650,250 646,244 654,244" fill="#E91E63" />
+    </g>
+  </g>
+  
+  <!-- Artifacts & Reports -->
+  <g>
+    <rect x="100" y="480" width="800" height="100" rx="8" fill="#FCE4EC" stroke="#E91E63" stroke-width="2" />
+    <text x="500" y="505" text-anchor="middle" font-size="18" font-weight="bold" fill="#880E4F">Artifacts & Reports</text>
+    
+    <!-- Components -->
+    <g>
+      <rect x="150" y="530" width="160" height="30" rx="5" fill="#ffffff" stroke="#E91E63" stroke-width="1.5" />
+      <text x="230" y="550" text-anchor="middle" font-size="14" font-weight="bold" fill="#880E4F">Code Coverage</text>
+      
+      <rect x="350" y="530" width="160" height="30" rx="5" fill="#ffffff" stroke="#E91E63" stroke-width="1.5" />
+      <text x="430" y="550" text-anchor="middle" font-size="14" font-weight="bold" fill="#880E4F">Test Reports</text>
+      
+      <rect x="550" y="530" width="160" height="30" rx="5" fill="#ffffff" stroke="#E91E63" stroke-width="1.5" />
+      <text x="630" y="550" text-anchor="middle" font-size="14" font-weight="bold" fill="#880E4F">Docker Images</text>
+      
+      <rect x="750" y="530" width="100" height="30" rx="5" fill="#ffffff" stroke="#E91E63" stroke-width="1.5" />
+      <text x="800" y="550" text-anchor="middle" font-size="14" font-weight="bold" fill="#880E4F">MLflow Models</text>
+      
+      <!-- Vertical connection from CI to artifacts -->
+      <path d="M430 430 L430 480" stroke="#E91E63" stroke-width="2" fill="none" />
+      <polygon points="430,480 426,474 434,474" fill="#E91E63" />
+    </g>
+  </g>
+  
+  <!-- Continuous Deployment -->
+  <g>
+    <rect x="100" y="610" width="800" height="200" rx="8" fill="#FCE4EC" stroke="#E91E63" stroke-width="2" />
+    <text x="500" y="635" text-anchor="middle" font-size="18" font-weight="bold" fill="#880E4F">Continuous Deployment (CD)</text>
+    
+    <!-- Components -->
+    <g>
+      <!-- Environment Deployment -->
+      <rect x="140" y="660" width="180" height="130" rx="5" fill="#ffffff" stroke="#E91E63" stroke-width="1.5" />
+      <text x="230" y="685" text-anchor="middle" font-size="14" font-weight="bold" fill="#880E4F">Environment Deployment</text>
+      <text x="230" y="705" text-anchor="middle" font-size="12" fill="#880E4F">• Development</text>
+      <text x="230" y="725" text-anchor="middle" font-size="12" fill="#880E4F">• Staging</text>
+      <text x="230" y="745" text-anchor="middle" font-size="12" fill="#880E4F">• Production</text>
+      <text x="230" y="765" text-anchor="middle" font-size="12" fill="#880E4F">• Deploy Approval</text>
+      
+      <!-- Container Management -->
+      <rect x="370" y="660" width="180" height="130" rx="5" fill="#ffffff" stroke="#E91E63" stroke-width="1.5" />
+      <text x="460" y="685" text-anchor="middle" font-size="14" font-weight="bold" fill="#880E4F">Container Management</text>
+      <text x="460" y="705" text-anchor="middle" font-size="12" fill="#880E4F">• Docker Registry</text>
+      <text x="460" y="725" text-anchor="middle" font-size="12" fill="#880E4F">• Container Orchestration</text>
+      <text x="460" y="745" text-anchor="middle" font-size="12" fill="#880E4F">• Health Checks</text>
+      <text x="460" y="765" text-anchor="middle" font-size="12" fill="#880E4F">• Rolling Updates</text>
+      
+      <!-- Model Deployment -->
+      <rect x="600" y="660" width="180" height="130" rx="5" fill="#ffffff" stroke="#E91E63" stroke-width="1.5" />
+      <text x="690" y="685" text-anchor="middle" font-size="14" font-weight="bold" fill="#880E4F">Model Deployment</text>
+      <text x="690" y="705" text-anchor="middle" font-size="12" fill="#880E4F">• Model Registry Updates</text>
+      <text x="690" y="725" text-anchor="middle" font-size="12" fill="#880E4F">• A/B Testing</text>
+      <text x="690" y="745" text-anchor="middle" font-size="12" fill="#880E4F">• Canary Deployment</text>
+      <text x="690" y="765" text-anchor="middle" font-size="12" fill="#880E4F">• Rollback Mechanism</text>
+      
+      <!-- Connections -->
+      <path d="M320 725 L370 725" stroke="#E91E63" stroke-width="2" fill="none" />
+      <polygon points="370,725 364,721 364,729" fill="#E91E63" />
+      
+      <path d="M550 725 L600 725" stroke="#E91E63" stroke-width="2" fill="none" />
+      <polygon points="600,725 594,721 594,729" fill="#E91E63" />
+      
+      <!-- Vertical connection from artifacts to CD -->
+      <path d="M430 560 L430 610" stroke="#E91E63" stroke-width="2" fill="none" />
+      <polygon points="430,610 426,604 434,604" fill="#E91E63" />
+      
+      <path d="M630 560 L690 610" stroke="#E91E63" stroke-width="2" fill="none" />
+      <polygon points="690,610 682,608 688,602" fill="#E91E63" />
+      
+      <path d="M800 560 L780 610" stroke="#E91E63" stroke-width="2" fill="none" />
+      <polygon points="780,610 776,602 784,606" fill="#E91E63" />
+    </g>
+  </g>
+  
+  <!-- Deployment Environments -->
+  <g>
+    <rect x="100" y="840" width="800" height="40" rx="8" fill="#FFFDE7" stroke="#FFC107" stroke-width="2" />
+    <text x="200" y="865" text-anchor="middle" font-size="16" font-weight="bold" fill="#FF6F00">Development</text>
+    <text x="400" y="865" text-anchor="middle" font-size="16" font-weight="bold" fill="#FF6F00">Staging</text>
+    <text x="600" y="865" text-anchor="middle" font-size="16" font-weight="bold" fill="#FF6F00">Production</text>
+    <text x="800" y="865" text-anchor="middle" font-size="16" font-weight="bold" fill="#FF6F00">Monitoring</text>
+    
+    <!-- Vertical connections from CD to environments -->
+    <path d="M230 790 L230 840" stroke="#E91E63" stroke-width="2" fill="none" />
+    <polygon points="230,840 226,834 234,834" fill="#FFC107" />
+    
+    <path d="M460 790 L400 840" stroke="#E91E63" stroke-width="2" fill="none" />
+    <polygon points="400,840 397,833 405,837" fill="#FFC107" />
+    
+    <path d="M690 790 L600 840" stroke="#E91E63" stroke-width="2" fill="none" />
+    <polygon points="600,840 597,833 605,837" fill="#FFC107" />
+    
+    <path d="M780 790 L800 840" stroke="#E91E63" stroke-width="2" fill="none" />
+    <polygon points="800,840 793,836 801,834" fill="#FFC107" />
+  </g>
+  
+  <!-- Automation & Workflow Indicators -->
+  <g>
+    <path d="M935 365 L965 365 L965 365 L995 365" stroke="#E91E63" stroke-width="3" fill="none" stroke-dasharray="10,5" />
+    <text x="965" y="345" text-anchor="middle" font-size="12" fill="#880E4F">Automated</text>
+    
+    <path d="M935 405 L965 405 L965 405 L995 405" stroke="#E91E63" stroke-width="3" fill="none" />
+    <text x="965" y="425" text-anchor="middle" font-size="12" fill="#880E4F">Manual Step</text>
+    
+    <rect x="50" y="520" width="220" height="120" rx="5" fill="#ffffff" stroke="#cccccc" stroke-width="1" opacity="0.9" />
+    <text x="160" y="540" text-anchor="middle" font-size="12" font-weight="bold" fill="#333333">CI/CD Workflow Highlights</text>
+    <text x="160" y="560" text-anchor="middle" font-size="10" fill="#333333">• Automated code quality checks</text>
+    <text x="160" y="580" text-anchor="middle" font-size="10" fill="#333333">• Comprehensive test suite</text>
+    <text x="160" y="600" text-anchor="middle" font-size="10" fill="#333333">• Separate CI and CD pipelines</text>
+    <text x="160" y="620" text-anchor="middle" font-size="10" fill="#333333">• Artifacts passed between pipelines</text>
+  </g>

@@ -1,0 +1,157 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 920" font-family="'Segoe UI', Roboto, Helvetica, Arial, sans-serif">
+  <!-- Background -->
+  <rect width="1000" height="920" fill="#f8f9fa" />
+  
+  <!-- Title -->
+  <text x="500" y="50" text-anchor="middle" font-size="28" font-weight="bold" fill="#212529">Satellite Image Segmentation Training Pipeline</text>
+  
+  <!-- Model Architecture Selection -->
+  <g>
+    <rect x="100" y="100" width="800" height="150" rx="8" fill="#E8F5E9" stroke="#4CAF50" stroke-width="2" />
+    <text x="500" y="125" text-anchor="middle" font-size="18" font-weight="bold" fill="#1B5E20">Model Architecture Selection</text>
+    
+    <!-- Components -->
+    <g>
+      <rect x="130" y="150" width="160" height="80" rx="5" fill="#ffffff" stroke="#4CAF50" stroke-width="1.5" />
+      <text x="210" y="180" text-anchor="middle" font-size="14" font-weight="bold" fill="#1B5E20">LinkNet</text>
+      <text x="210" y="200" text-anchor="middle" font-size="12" fill="#1B5E20">Memory-Efficient</text>
+      
+      <rect x="370" y="150" width="160" height="80" rx="5" fill="#ffffff" stroke="#4CAF50" stroke-width="1.5" />
+      <text x="450" y="180" text-anchor="middle" font-size="14" font-weight="bold" fill="#1B5E20">U-Net</text>
+      <text x="450" y="200" text-anchor="middle" font-size="12" fill="#1B5E20">Classic Architecture</text>
+      
+      <rect x="610" y="150" width="160" height="80" rx="5" fill="#ffffff" stroke="#4CAF50" stroke-width="1.5" />
+      <text x="690" y="180" text-anchor="middle" font-size="14" font-weight="bold" fill="#1B5E20">MANet</text>
+      <text x="690" y="200" text-anchor="middle" font-size="12" fill="#1B5E20">Multi-Scale Attention</text>
+      
+      <!-- Selected Architecture Indicator -->
+      <rect x="130" y="235" width="160" height="5" fill="#4CAF50" stroke="none" />
+      <text x="210" y="225" text-anchor="middle" font-size="10" fill="#1B5E20" font-style="italic">Default Selection</text>
+    </g>
+  </g>
+  
+  <!-- Backbone Selection -->
+  <g>
+    <rect x="100" y="280" width="800" height="120" rx="8" fill="#E8F5E9" stroke="#4CAF50" stroke-width="2" />
+    <text x="500" y="305" text-anchor="middle" font-size="18" font-weight="bold" fill="#1B5E20">Backbone Selection</text>
+    
+    <!-- Components -->
+    <g>
+      <rect x="130" y="330" width="160" height="50" rx="5" fill="#ffffff" stroke="#4CAF50" stroke-width="1.5" />
+      <text x="210" y="360" text-anchor="middle" font-size="14" font-weight="bold" fill="#1B5E20">EfficientNetB0</text>
+      
+      <rect x="310" y="330" width="160" height="50" rx="5" fill="#ffffff" stroke="#4CAF50" stroke-width="1.5" />
+      <text x="390" y="360" text-anchor="middle" font-size="14" font-weight="bold" fill="#1B5E20">ResNet50</text>
+      
+      <rect x="490" y="330" width="160" height="50" rx="5" fill="#ffffff" stroke="#4CAF50" stroke-width="1.5" />
+      <text x="570" y="360" text-anchor="middle" font-size="14" font-weight="bold" fill="#1B5E20">MobileNetV2</text>
+      
+      <rect x="670" y="330" width="160" height="50" rx="5" fill="#ffffff" stroke="#4CAF50" stroke-width="1.5" />
+      <text x="750" y="360" text-anchor="middle" font-size="14" font-weight="bold" fill="#1B5E20">DenseNet121</text>
+      
+      <!-- Selected Backbone Indicator -->
+      <rect x="130" y="385" width="160" height="5" fill="#4CAF50" stroke="none" />
+      <text x="210" y="380" text-anchor="middle" font-size="10" fill="#1B5E20" font-style="italic">Default Backbone</text>
+      
+      <!-- Vertical connection from architecture to backbone -->
+      <path d="M210 235 L210 330" stroke="#4CAF50" stroke-width="2" fill="none" />
+      <polygon points="210,330 206,324 214,324" fill="#4CAF50" />
+    </g>
+  </g>
+  
+  <!-- Training Configuration -->
+  <g>
+    <rect x="100" y="430" width="800" height="150" rx="8" fill="#E8F5E9" stroke="#4CAF50" stroke-width="2" />
+    <text x="500" y="455" text-anchor="middle" font-size="18" font-weight="bold" fill="#1B5E20">Training Configuration</text>
+    
+    <!-- Components -->
+    <g>
+      <rect x="130" y="480" width="160" height="80" rx="5" fill="#ffffff" stroke="#4CAF50" stroke-width="1.5" />
+      <text x="210" y="505" text-anchor="middle" font-size="14" font-weight="bold" fill="#1B5E20">Optimizer</text>
+      <text x="210" y="525" text-anchor="middle" font-size="12" fill="#1B5E20">Adam</text>
+      <text x="210" y="545" text-anchor="middle" font-size="12" fill="#1B5E20">LR: 0.001</text>
+      
+      <rect x="370" y="480" width="160" height="80" rx="5" fill="#ffffff" stroke="#4CAF50" stroke-width="1.5" />
+      <text x="450" y="505" text-anchor="middle" font-size="14" font-weight="bold" fill="#1B5E20">Loss Function</text>
+      <text x="450" y="525" text-anchor="middle" font-size="12" fill="#1B5E20">Dice Coefficient Loss</text>
+      <text x="450" y="545" text-anchor="middle" font-size="12" fill="#1B5E20">Handles Class Imbalance</text>
+      
+      <rect x="610" y="480" width="160" height="80" rx="5" fill="#ffffff" stroke="#4CAF50" stroke-width="1.5" />
+      <text x="690" y="505" text-anchor="middle" font-size="14" font-weight="bold" fill="#1B5E20">Metrics</text>
+      <text x="690" y="525" text-anchor="middle" font-size="12" fill="#1B5E20">IoU, Dice Coefficient</text>
+      <text x="690" y="545" text-anchor="middle" font-size="12" fill="#1B5E20">Accuracy</text>
+      
+      <!-- Vertical connection from backbone to configuration -->
+      <path d="M210 385 L210 480" stroke="#4CAF50" stroke-width="2" fill="none" />
+      <polygon points="210,480 206,474 214,474" fill="#4CAF50" />
+    </g>
+  </g>
+  
+  <!-- Training Execution -->
+  <g>
+    <rect x="100" y="610" width="800" height="150" rx="8" fill="#E8F5E9" stroke="#4CAF50" stroke-width="2" />
+    <text x="500" y="635" text-anchor="middle" font-size="18" font-weight="bold" fill="#1B5E20">Training Execution</text>
+    
+    <!-- Components -->
+    <g>
+      <rect x="130" y="660" width="160" height="80" rx="5" fill="#ffffff" stroke="#4CAF50" stroke-width="1.5" />
+      <text x="210" y="685" text-anchor="middle" font-size="14" font-weight="bold" fill="#1B5E20">Callbacks</text>
+      <text x="210" y="705" text-anchor="middle" font-size="12" fill="#1B5E20">EarlyStopping</text>
+      <text x="210" y="725" text-anchor="middle" font-size="12" fill="#1B5E20">ReduceLROnPlateau</text>
+      
+      <rect x="370" y="660" width="160" height="80" rx="5" fill="#ffffff" stroke="#4CAF50" stroke-width="1.5" />
+      <text x="450" y="685" text-anchor="middle" font-size="14" font-weight="bold" fill="#1B5E20">Experiment Tracking</text>
+      <text x="450" y="705" text-anchor="middle" font-size="12" fill="#1B5E20">MLflow</text>
+      <text x="450" y="725" text-anchor="middle" font-size="12" fill="#1B5E20">Parameter & Metric Logging</text>
+      
+      <rect x="610" y="660" width="160" height="80" rx="5" fill="#ffffff" stroke="#4CAF50" stroke-width="1.5" />
+      <text x="690" y="685" text-anchor="middle" font-size="14" font-weight="bold" fill="#1B5E20">Model Checkpointing</text>
+      <text x="690" y="705" text-anchor="middle" font-size="12" fill="#1B5E20">Best Model Saving</text>
+      <text x="690" y="725" text-anchor="middle" font-size="12" fill="#1B5E20">Periodic Checkpoints</text>
+      
+      <!-- Connection lines -->
+      <path d="M290 700 L370 700" stroke="#4CAF50" stroke-width="2" fill="none" />
+      <polygon points="370,700 364,696 364,704" fill="#4CAF50" />
+      
+      <path d="M530 700 L610 700" stroke="#4CAF50" stroke-width="2" fill="none" />
+      <polygon points="610,700 604,696 604,704" fill="#4CAF50" />
+      
+      <!-- Vertical connection from configuration to execution -->
+      <path d="M450 560 L450 660" stroke="#4CAF50" stroke-width="2" fill="none" />
+      <polygon points="450,660 446,654 454,654" fill="#4CAF50" />
+    </g>
+  </g>
+  
+  <!-- Model Evaluation Flow -->
+  <g>
+    <rect x="100" y="790" width="800" height="110" rx="8" fill="#FFF3E0" stroke="#FF9800" stroke-width="2" />
+    <text x="500" y="815" text-anchor="middle" font-size="18" font-weight="bold" fill="#E65100">Model Registry & Deployment</text>
+    
+    <rect x="180" y="835" width="160" height="50" rx="5" fill="#ffffff" stroke="#FF9800" stroke-width="1.5" />
+    <text x="260" y="865" text-anchor="middle" font-size="14" font-weight="bold" fill="#E65100">Model Registry</text>
+    
+    <rect x="420" y="835" width="160" height="50" rx="5" fill="#ffffff" stroke="#FF9800" stroke-width="1.5" />
+    <text x="500" y="865" text-anchor="middle" font-size="14" font-weight="bold" fill="#E65100">Staging Deployment</text>
+    
+    <rect x="660" y="835" width="160" height="50" rx="5" fill="#ffffff" stroke="#FF9800" stroke-width="1.5" />
+    <text x="740" y="865" text-anchor="middle" font-size="14" font-weight="bold" fill="#E65100">Production Deployment</text>
+    
+    <!-- Connection lines -->
+    <path d="M340 860 L420 860" stroke="#FF9800" stroke-width="2" fill="none" />
+    <polygon points="420,860 414,856 414,864" fill="#FF9800" />
+    
+    <path d="M580 860 L660 860" stroke="#FF9800" stroke-width="2" fill="none" />
+    <polygon points="660,860 654,856 654,864" fill="#FF9800" />
+    
+    <!-- Vertical connection from execution to registry -->
+    <path d="M690 740 L690 790 Q690 800 680 800 L260 800 Q250 800 250 810 L250 835" stroke="#4CAF50" stroke-width="2" fill="none" />
+    <polygon points="250,835 246,829 254,829" fill="#FF9800" />
+    <text x="400" y="790" text-anchor="middle" font-size="12" fill="#1B5E20">Best Model Selection</text>
+  </g>
+  
+  <!-- Training to MLflow Flow -->
+  <g>
+    <path d="M450 750 L450 800 L900 800 L900 400 L850 400" stroke="#4CAF50" stroke-width="3" fill="none" stroke-dasharray="10,5" />
+    <polygon points="850,400 856,396 856,404" fill="#4CAF50" />
+    <text x="900" y="600" text-anchor="middle" font-size="14" font-weight="bold" fill="#1B5E20" transform="rotate(90, 900, 600)">MLflow Experiment Tracking</text>
+  </g>

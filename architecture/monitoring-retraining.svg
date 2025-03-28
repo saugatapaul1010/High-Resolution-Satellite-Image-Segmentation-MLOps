@@ -1,0 +1,212 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 900" font-family="'Segoe UI', Roboto, Helvetica, Arial, sans-serif">
+  <!-- Background -->
+  <rect width="1000" height="900" fill="#f8f9fa" />
+  
+  <!-- Title -->
+  <text x="500" y="50" text-anchor="middle" font-size="28" font-weight="bold" fill="#212529">Monitoring and Continuous Retraining System</text>
+  
+  <!-- Monitoring System -->
+  <g>
+    <rect x="100" y="100" width="800" height="200" rx="8" fill="#E0F7FA" stroke="#00BCD4" stroke-width="2" />
+    <text x="500" y="125" text-anchor="middle" font-size="18" font-weight="bold" fill="#006064">Monitoring System</text>
+    
+    <!-- Components -->
+    <g>
+      <!-- Model Performance -->
+      <rect x="130" y="150" width="170" height="130" rx="5" fill="#ffffff" stroke="#00BCD4" stroke-width="1.5" />
+      <text x="215" y="175" text-anchor="middle" font-size="14" font-weight="bold" fill="#006064">Model Performance</text>
+      <text x="215" y="195" text-anchor="middle" font-size="12" fill="#006064">• Accuracy Metrics</text>
+      <text x="215" y="215" text-anchor="middle" font-size="12" fill="#006064">• IoU Tracking</text>
+      <text x="215" y="235" text-anchor="middle" font-size="12" fill="#006064">• Dice Coefficient</text>
+      <text x="215" y="255" text-anchor="middle" font-size="12" fill="#006064">• Confusion Matrix</text>
+      
+      <!-- Data Drift Detection -->
+      <rect x="350" y="150" width="170" height="130" rx="5" fill="#ffffff" stroke="#00BCD4" stroke-width="1.5" />
+      <text x="435" y="175" text-anchor="middle" font-size="14" font-weight="bold" fill="#006064">Data Drift Detection</text>
+      <text x="435" y="195" text-anchor="middle" font-size="12" fill="#006064">• Distribution Monitoring</text>
+      <text x="435" y="215" text-anchor="middle" font-size="12" fill="#006064">• K-S Test</text>
+      <text x="435" y="235" text-anchor="middle" font-size="12" fill="#006064">• PCA Visualization</text>
+      <text x="435" y="255" text-anchor="middle" font-size="12" fill="#006064">• Seasonal Adjustment</text>
+      
+      <!-- Concept Drift -->
+      <rect x="570" y="150" width="170" height="130" rx="5" fill="#ffffff" stroke="#00BCD4" stroke-width="1.5" />
+      <text x="655" y="175" text-anchor="middle" font-size="14" font-weight="bold" fill="#006064">Concept Drift</text>
+      <text x="655" y="195" text-anchor="middle" font-size="12" fill="#006064">• Performance Degradation</text>
+      <text x="655" y="215" text-anchor="middle" font-size="12" fill="#006064">• Error Analysis</text>
+      <text x="655" y="235" text-anchor="middle" font-size="12" fill="#006064">• Feedback Loop</text>
+      <text x="655" y="255" text-anchor="middle" font-size="12" fill="#006064">• Anomaly Detection</text>
+      
+      <!-- Visualization -->
+      <rect x="790" y="150" width="80" height="130" rx="5" fill="#ffffff" stroke="#00BCD4" stroke-width="1.5" />
+      <text x="830" y="205" text-anchor="middle" font-size="14" font-weight="bold" fill="#006064" transform="rotate(-90, 830, 205)">Grafana Dashboards</text>
+      
+      <!-- Connections -->
+      <path d="M300 215 L350 215" stroke="#00BCD4" stroke-width="2" fill="none" />
+      <polygon points="350,215 344,211 344,219" fill="#00BCD4" />
+      
+      <path d="M520 215 L570 215" stroke="#00BCD4" stroke-width="2" fill="none" />
+      <polygon points="570,215 564,211 564,219" fill="#00BCD4" />
+      
+      <path d="M740 215 L790 215" stroke="#00BCD4" stroke-width="2" fill="none" />
+      <polygon points="790,215 784,211 784,219" fill="#00BCD4" />
+    </g>
+  </g>
+  
+  <!-- Alerting System -->
+  <g>
+    <rect x="100" y="330" width="800" height="120" rx="8" fill="#E0F7FA" stroke="#00BCD4" stroke-width="2" />
+    <text x="500" y="355" text-anchor="middle" font-size="18" font-weight="bold" fill="#006064">Alerting & Logging System</text>
+    
+    <!-- Components -->
+    <g>
+      <!-- Prometheus -->
+      <rect x="150" y="380" width="170" height="50" rx="5" fill="#ffffff" stroke="#00BCD4" stroke-width="1.5" />
+      <text x="235" y="410" text-anchor="middle" font-size="14" font-weight="bold" fill="#006064">Prometheus</text>
+      
+      <!-- Grafana -->
+      <rect x="350" y="380" width="170" height="50" rx="5" fill="#ffffff" stroke="#00BCD4" stroke-width="1.5" />
+      <text x="435" y="410" text-anchor="middle" font-size="14" font-weight="bold" fill="#006064">Alerting Rules</text>
+      
+      <!-- ELK Stack -->
+      <rect x="550" y="380" width="170" height="50" rx="5" fill="#ffffff" stroke="#00BCD4" stroke-width="1.5" />
+      <text x="635" y="410" text-anchor="middle" font-size="14" font-weight="bold" fill="#006064">ELK Stack</text>
+      
+      <!-- Connections -->
+      <path d="M320 405 L350 405" stroke="#00BCD4" stroke-width="2" fill="none" />
+      <polygon points="350,405 344,401 344,409" fill="#00BCD4" />
+      
+      <path d="M520 405 L550 405" stroke="#00BCD4" stroke-width="2" fill="none" />
+      <polygon points="550,405 544,401 544,409" fill="#00BCD4" />
+      
+      <!-- Vertical connection from monitoring to alerting -->
+      <path d="M435 280 L435 330" stroke="#00BCD4" stroke-width="2" fill="none" />
+      <polygon points="435,330 431,324 439,324" fill="#00BCD4" />
+      
+      <path d="M655 280 L635 330" stroke="#00BCD4" stroke-width="2" fill="none" />
+      <polygon points="635,330 631,324 639,324" fill="#00BCD4" />
+    </g>
+  </g>
+  
+  <!-- Retraining Triggers -->
+  <g>
+    <rect x="100" y="480" width="800" height="120" rx="8" fill="#E8F5E9" stroke="#4CAF50" stroke-width="2" />
+    <text x="500" y="505" text-anchor="middle" font-size="18" font-weight="bold" fill="#1B5E20">Retraining Triggers</text>
+    
+    <!-- Components -->
+    <g>
+      <!-- Scheduled Retraining -->
+      <rect x="150" y="530" width="170" height="50" rx="5" fill="#ffffff" stroke="#4CAF50" stroke-width="1.5" />
+      <text x="235" y="550" text-anchor="middle" font-size="14" font-weight="bold" fill="#1B5E20">Scheduled Retraining</text>
+      <text x="235" y="570" text-anchor="middle" font-size="12" fill="#1B5E20">Time-Based Triggers</text>
+      
+      <!-- Drift-Based Retraining -->
+      <rect x="350" y="530" width="170" height="50" rx="5" fill="#ffffff" stroke="#4CAF50" stroke-width="1.5" />
+      <text x="435" y="550" text-anchor="middle" font-size="14" font-weight="bold" fill="#1B5E20">Drift-Based Retraining</text>
+      <text x="435" y="570" text-anchor="middle" font-size="12" fill="#1B5E20">Data/Concept Drift</text>
+      
+      <!-- Performance-Based -->
+      <rect x="550" y="530" width="170" height="50" rx="5" fill="#ffffff" stroke="#4CAF50" stroke-width="1.5" />
+      <text x="635" y="550" text-anchor="middle" font-size="14" font-weight="bold" fill="#1B5E20">Performance-Based</text>
+      <text x="635" y="570" text-anchor="middle" font-size="12" fill="#1B5E20">Metric Thresholds</text>
+      
+      <!-- Vertical connection from alerting to triggers -->
+      <path d="M235 430 L235 480" stroke="#00BCD4" stroke-width="2" fill="none" />
+      <polygon points="235,480 231,474 239,474" fill="#4CAF50" />
+      
+      <path d="M435 430 L435 480" stroke="#00BCD4" stroke-width="2" fill="none" />
+      <polygon points="435,480 431,474 439,474" fill="#4CAF50" />
+      
+      <path d="M635 430 L635 480" stroke="#00BCD4" stroke-width="2" fill="none" />
+      <polygon points="635,480 631,474 639,474" fill="#4CAF50" />
+    </g>
+  </g>
+  
+  <!-- Automated Retraining -->
+  <g>
+    <rect x="100" y="630" width="800" height="160" rx="8" fill="#E8F5E9" stroke="#4CAF50" stroke-width="2" />
+    <text x="500" y="655" text-anchor="middle" font-size="18" font-weight="bold" fill="#1B5E20">Automated Retraining</text>
+    
+    <!-- Components -->
+    <g>
+      <!-- Data Selection -->
+      <rect x="150" y="680" width="150" height="90" rx="5" fill="#ffffff" stroke="#4CAF50" stroke-width="1.5" />
+      <text x="225" y="705" text-anchor="middle" font-size="14" font-weight="bold" fill="#1B5E20">Data Selection</text>
+      <text x="225" y="725" text-anchor="middle" font-size="12" fill="#1B5E20">• Incremental Data</text>
+      <text x="225" y="745" text-anchor="middle" font-size="12" fill="#1B5E20">• Data Filtering</text>
+      <text x="225" y="765" text-anchor="middle" font-size="12" fill="#1B5E20">• Version Selection</text>
+      
+      <!-- Hyperparameter Tuning -->
+      <rect x="330" y="680" width="150" height="90" rx="5" fill="#ffffff" stroke="#4CAF50" stroke-width="1.5" />
+      <text x="405" y="705" text-anchor="middle" font-size="14" font-weight="bold" fill="#1B5E20">Hyperparameter Tuning</text>
+      <text x="405" y="725" text-anchor="middle" font-size="12" fill="#1B5E20">• Bayesian Optimization</text>
+      <text x="405" y="745" text-anchor="middle" font-size="12" fill="#1B5E20">• Learning Rate Adjustment</text>
+      <text x="405" y="765" text-anchor="middle" font-size="12" fill="#1B5E20">• Architecture Selection</text>
+      
+      <!-- Model Training -->
+      <rect x="510" y="680" width="150" height="90" rx="5" fill="#ffffff" stroke="#4CAF50" stroke-width="1.5" />
+      <text x="585" y="705" text-anchor="middle" font-size="14" font-weight="bold" fill="#1B5E20">Model Training</text>
+      <text x="585" y="725" text-anchor="middle" font-size="12" fill="#1B5E20">• Automated Execution</text>
+      <text x="585" y="745" text-anchor="middle" font-size="12" fill="#1B5E20">• Experiment Tracking</text>
+      <text x="585" y="765" text-anchor="middle" font-size="12" fill="#1B5E20">• Version Control</text>
+      
+      <!-- Evaluation & Deployment -->
+      <rect x="690" y="680" width="150" height="90" rx="5" fill="#ffffff" stroke="#4CAF50" stroke-width="1.5" />
+      <text x="765" y="705" text-anchor="middle" font-size="14" font-weight="bold" fill="#1B5E20">Evaluation & Deployment</text>
+      <text x="765" y="725" text-anchor="middle" font-size="12" fill="#1B5E20">• A/B Testing</text>
+      <text x="765" y="745" text-anchor="middle" font-size="12" fill="#1B5E20">• Champion-Challenger</text>
+      <text x="765" y="765" text-anchor="middle" font-size="12" fill="#1B5E20">• Automated Rollback</text>
+      
+      <!-- Connections -->
+      <path d="M300 725 L330 725" stroke="#4CAF50" stroke-width="2" fill="none" />
+      <polygon points="330,725 324,721 324,729" fill="#4CAF50" />
+      
+      <path d="M480 725 L510 725" stroke="#4CAF50" stroke-width="2" fill="none" />
+      <polygon points="510,725 504,721 504,729" fill="#4CAF50" />
+      
+      <path d="M660 725 L690 725" stroke="#4CAF50" stroke-width="2" fill="none" />
+      <polygon points="690,725 684,721 684,729" fill="#4CAF50" />
+      
+      <!-- Vertical connection from triggers to retraining -->
+      <path d="M235 580 L235 630" stroke="#4CAF50" stroke-width="2" fill="none" />
+      <polygon points="235,630 231,624 239,624" fill="#4CAF50" />
+      
+      <path d="M435 580 L405 630" stroke="#4CAF50" stroke-width="2" fill="none" />
+      <polygon points="405,630 401,624 409,624" fill="#4CAF50" />
+      
+      <path d="M635 580 L585 630" stroke="#4CAF50" stroke-width="2" fill="none" />
+      <polygon points="585,630 581,624 589,624" fill="#4CAF50" />
+    </g>
+  </g>
+  
+  <!-- MLflow Integration -->
+  <g>
+    <rect x="100" y="820" width="800" height="60" rx="8" fill="#FFF3E0" stroke="#FF9800" stroke-width="2" />
+    <text x="500" y="855" text-anchor="middle" font-size="18" font-weight="bold" fill="#E65100">MLflow Experiment Tracking & Model Registry</text>
+    
+    <!-- Vertical connection from retraining to MLflow -->
+    <path d="M765 770 L765 820" stroke="#4CAF50" stroke-width="2" fill="none" />
+    <polygon points="765,820 761,814 769,814" fill="#FF9800" />
+    
+    <!-- Connection back to production -->
+    <path d="M900 855 L950 855 L950 250 L850 250" stroke="#FF9800" stroke-width="3" fill="none" stroke-dasharray="10,5" />
+    <text x="900" y="835" text-anchor="end" font-size="14" font-weight="bold" fill="#E65100">To Production</text>
+  </g>
+  
+  <!-- Integration with Other Systems -->
+  <g>
+    <path d="M50 215 L100 215" stroke="#00BCD4" stroke-width="2" fill="none" stroke-dasharray="6,3" />
+    <text x="70" y="195" text-anchor="middle" font-size="12" fill="#006064">From Inference</text>
+    
+    <path d="M50 725 L100 725" stroke="#4CAF50" stroke-width="2" fill="none" stroke-dasharray="6,3" />
+    <text x="70" y="705" text-anchor="middle" font-size="12" fill="#1B5E20">From Data Registry</text>
+  </g>
+  
+  <!-- Key Metrics Annotation -->
+  <g>
+    <rect x="800" y="300" width="180" height="120" rx="5" fill="#ffffff" stroke="#cccccc" stroke-width="1" opacity="0.9" />
+    <text x="890" y="320" text-anchor="middle" font-size="12" font-weight="bold" fill="#333333">Key Metrics</text>
+    <text x="890" y="340" text-anchor="middle" font-size="10" fill="#333333">• IoU Score (Detection Quality)</text>
+    <text x="890" y="360" text-anchor="middle" font-size="10" fill="#333333">• Data Distribution Stats</text>
+    <text x="890" y="380" text-anchor="middle" font-size="10" fill="#333333">• Resource Utilization</text>
+    <text x="890" y="400" text-anchor="middle" font-size="10" fill="#333333">• Model Inference Latency</text>
+  </g>

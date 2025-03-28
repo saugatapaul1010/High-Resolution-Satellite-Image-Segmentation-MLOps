@@ -1,0 +1,494 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 1600" font-family="'Segoe UI', Roboto, Helvetica, Arial, sans-serif">
+  <!-- Background -->
+  <rect width="1200" height="1600" fill="#f8f9fa" />
+  
+  <!-- Title -->
+  <text x="600" y="60" text-anchor="middle" font-size="32" font-weight="bold" fill="#212529">Production-Grade MLOps System</text>
+  <text x="600" y="100" text-anchor="middle" font-size="24" fill="#212529">Satellite Image Segmentation</text>
+  
+  <!-- Data Management Layer -->
+  <g>
+    <rect x="100" y="160" width="1000" height="180" rx="8" fill="#E3F2FD" stroke="#2196F3" stroke-width="2" />
+    <text x="600" y="188" text-anchor="middle" font-size="20" font-weight="bold" fill="#0D47A1">Data Management Layer</text>
+    
+    <!-- Components -->
+    <g>
+      <!-- Raw Satellite Images -->
+      <rect x="130" y="220" width="140" height="90" rx="5" fill="#ffffff" stroke="#2196F3" stroke-width="1.5" />
+      <text x="200" y="250" text-anchor="middle" font-size="14" font-weight="bold" fill="#0D47A1">Raw Satellite Images</text>
+      <text x="200" y="270" text-anchor="middle" font-size="12" fill="#0D47A1">DVC Tracked</text>
+      
+      <!-- Annotations -->
+      <rect x="290" y="220" width="140" height="90" rx="5" fill="#ffffff" stroke="#2196F3" stroke-width="1.5" />
+      <text x="360" y="250" text-anchor="middle" font-size="14" font-weight="bold" fill="#0D47A1">Image Annotations</text>
+      <text x="360" y="270" text-anchor="middle" font-size="12" fill="#0D47A1">DVC Tracked (JSON)</text>
+      
+      <!-- Data Versioning -->
+      <rect x="450" y="220" width="140" height="90" rx="5" fill="#ffffff" stroke="#2196F3" stroke-width="1.5" />
+      <text x="520" y="250" text-anchor="middle" font-size="14" font-weight="bold" fill="#0D47A1">Version Control</text>
+      <text x="520" y="270" text-anchor="middle" font-size="12" fill="#0D47A1">DVC</text>
+      
+      <!-- Processed Data -->
+      <rect x="610" y="220" width="140" height="90" rx="5" fill="#ffffff" stroke="#2196F3" stroke-width="1.5" />
+      <text x="680" y="250" text-anchor="middle" font-size="14" font-weight="bold" fill="#0D47A1">Processed Data</text>
+      <text x="680" y="270" text-anchor="middle" font-size="12" fill="#0D47A1">Patches & Binary Masks</text>
+      
+      <!-- Data Registry -->
+      <rect x="770" y="220" width="140" height="90" rx="5" fill="#ffffff" stroke="#2196F3" stroke-width="1.5" />
+      <text x="840" y="250" text-anchor="middle" font-size="14" font-weight="bold" fill="#0D47A1">Data Registry</text>
+      <text x="840" y="270" text-anchor="middle" font-size="12" fill="#0D47A1">PostgreSQL</text>
+      
+      <!-- Data Validation -->
+      <rect x="930" y="220" width="140" height="90" rx="5" fill="#ffffff" stroke="#2196F3" stroke-width="1.5" />
+      <text x="1000" y="250" text-anchor="middle" font-size="14" font-weight="bold" fill="#0D47A1">Data Validation</text>
+      <text x="1000" y="270" text-anchor="middle" font-size="12" fill="#0D47A1">Great Expectations</text>
+      
+      <!-- Connections -->
+      <path d="M270 265 L290 265" stroke="#2196F3" stroke-width="2" fill="none" />
+      <polygon points="290,265 284,261 284,269" fill="#2196F3" />
+      
+      <path d="M430 265 L450 265" stroke="#2196F3" stroke-width="2" fill="none" />
+      <polygon points="450,265 444,261 444,269" fill="#2196F3" />
+      
+      <path d="M590 265 L610 265" stroke="#2196F3" stroke-width="2" fill="none" />
+      <polygon points="610,265 604,261 604,269" fill="#2196F3" />
+      
+      <path d="M750 265 L770 265" stroke="#2196F3" stroke-width="2" fill="none" />
+      <polygon points="770,265 764,261 764,269" fill="#2196F3" />
+      
+      <path d="M910 265 L930 265" stroke="#2196F3" stroke-width="2" fill="none" />
+      <polygon points="930,265 924,261 924,269" fill="#2196F3" />
+    </g>
+  </g>
+  
+  <!-- Training Pipeline -->
+  <g>
+    <rect x="100" y="380" width="490" height="240" rx="8" fill="#E8F5E9" stroke="#4CAF50" stroke-width="2" />
+    <text x="345" y="408" text-anchor="middle" font-size="20" font-weight="bold" fill="#1B5E20">Training Pipeline</text>
+    
+    <!-- Components -->
+    <g>
+      <!-- Data Preparation -->
+      <rect x="130" y="440" width="140" height="70" rx="5" fill="#ffffff" stroke="#4CAF50" stroke-width="1.5" />
+      <text x="200" y="465" text-anchor="middle" font-size="14" font-weight="bold" fill="#1B5E20">Data Preparation</text>
+      <text x="200" y="485" text-anchor="middle" font-size="12" fill="#1B5E20">OpenCV, NumPy</text>
+      
+      <!-- Feature Engineering -->
+      <rect x="320" y="440" width="140" height="70" rx="5" fill="#ffffff" stroke="#4CAF50" stroke-width="1.5" />
+      <text x="390" y="465" text-anchor="middle" font-size="14" font-weight="bold" fill="#1B5E20">Feature Engineering</text>
+      <text x="390" y="485" text-anchor="middle" font-size="12" fill="#1B5E20">Patch Generation</text>
+      
+      <!-- Data Split -->
+      <rect x="130" y="530" width="140" height="70" rx="5" fill="#ffffff" stroke="#4CAF50" stroke-width="1.5" />
+      <text x="200" y="555" text-anchor="middle" font-size="14" font-weight="bold" fill="#1B5E20">Train/Val Split</text>
+      <text x="200" y="575" text-anchor="middle" font-size="12" fill="#1B5E20">Stratified Sampling</text>
+      
+      <!-- Model Training -->
+      <rect x="320" y="530" width="140" height="70" rx="5" fill="#ffffff" stroke="#4CAF50" stroke-width="1.5" />
+      <text x="390" y="555" text-anchor="middle" font-size="14" font-weight="bold" fill="#1B5E20">Model Training</text>
+      <text x="390" y="575" text-anchor="middle" font-size="12" fill="#1B5E20">TensorFlow, LinkNet</text>
+      
+      <!-- Connections -->
+      <path d="M270 475 L320 475" stroke="#4CAF50" stroke-width="2" fill="none" />
+      <polygon points="320,475 314,471 314,479" fill="#4CAF50" />
+      
+      <path d="M390 510 L390 530" stroke="#4CAF50" stroke-width="2" fill="none" />
+      <polygon points="390,530 386,524 394,524" fill="#4CAF50" />
+      
+      <path d="M270 565 L320 565" stroke="#4CAF50" stroke-width="2" fill="none" />
+      <polygon points="320,565 314,561 314,569" fill="#4CAF50" />
+    </g>
+    
+    <!-- Hyperparameter Tuning -->
+    <rect x="420" y="440" width="140" height="70" rx="5" fill="#ffffff" stroke="#4CAF50" stroke-width="1.5" />
+    <text x="490" y="465" text-anchor="middle" font-size="14" font-weight="bold" fill="#1B5E20">Hyperparameter Tuning</text>
+    <text x="490" y="485" text-anchor="middle" font-size="12" fill="#1B5E20">Bayesian Optimization</text>
+    
+    <path d="M490 510 L420 530 Q410 535 410 545" stroke="#4CAF50" stroke-width="2" fill="none" />
+    <polygon points="410,545 406,539 414,539" fill="#4CAF50" />
+  </g>
+  
+  <!-- Model Evaluation -->
+  <g>
+    <rect x="610" y="380" width="490" height="240" rx="8" fill="#E8F5E9" stroke="#4CAF50" stroke-width="2" />
+    <text x="855" y="408" text-anchor="middle" font-size="20" font-weight="bold" fill="#1B5E20">Model Evaluation</text>
+    
+    <!-- Evaluation -->
+    <rect x="640" y="440" width="140" height="70" rx="5" fill="#ffffff" stroke="#4CAF50" stroke-width="1.5" />
+    <text x="710" y="465" text-anchor="middle" font-size="14" font-weight="bold" fill="#1B5E20">Model Evaluation</text>
+    <text x="710" y="485" text-anchor="middle" font-size="12" fill="#1B5E20">IoU, Dice Coefficient</text>
+    
+    <!-- Experiment Tracking -->
+    <rect x="830" y="440" width="140" height="70" rx="5" fill="#ffffff" stroke="#4CAF50" stroke-width="1.5" />
+    <text x="900" y="465" text-anchor="middle" font-size="14" font-weight="bold" fill="#1B5E20">Experiment Tracking</text>
+    <text x="900" y="485" text-anchor="middle" font-size="12" fill="#1B5E20">MLflow</text>
+    
+    <path d="M460 565 Q550 565 640 475" stroke="#4CAF50" stroke-width="2" fill="none" />
+    <polygon points="640,475 632,478 636,470" fill="#4CAF50" />
+    
+    <path d="M780 475 L830 475" stroke="#4CAF50" stroke-width="2" fill="none" />
+    <polygon points="830,475 824,471 824,479" fill="#4CAF50" />
+    
+    <path d="M460 565 Q700 620 900 510" stroke="#4CAF50" stroke-width="2" fill="none" />
+    <polygon points="900,510 892,512 896,504" fill="#4CAF50" />
+  </g>
+  
+  <!-- Automated Retraining System -->
+  <g>
+    <rect x="100" y="660" width="1000" height="180" rx="8" fill="#E8F5E9" stroke="#4CAF50" stroke-width="2" />
+    <text x="600" y="688" text-anchor="middle" font-size="20" font-weight="bold" fill="#1B5E20">Automated Retraining System</text>
+    
+    <!-- Components -->
+    <g>
+      <!-- Retraining Triggers -->
+      <rect x="130" y="720" width="160" height="90" rx="5" fill="#ffffff" stroke="#4CAF50" stroke-width="1.5" />
+      <text x="210" y="750" text-anchor="middle" font-size="14" font-weight="bold" fill="#1B5E20">Retraining Triggers</text>
+      <text x="210" y="770" text-anchor="middle" font-size="12" fill="#1B5E20">Scheduled/Drift-Based</text>
+      
+      <!-- Data Selection -->
+      <rect x="330" y="720" width="160" height="90" rx="5" fill="#ffffff" stroke="#4CAF50" stroke-width="1.5" />
+      <text x="410" y="750" text-anchor="middle" font-size="14" font-weight="bold" fill="#1B5E20">Incremental Data</text>
+      <text x="410" y="770" text-anchor="middle" font-size="12" fill="#1B5E20">Selection</text>
+      
+      <!-- Automated Training -->
+      <rect x="530" y="720" width="160" height="90" rx="5" fill="#ffffff" stroke="#4CAF50" stroke-width="1.5" />
+      <text x="610" y="750" text-anchor="middle" font-size="14" font-weight="bold" fill="#1B5E20">Automated Training</text>
+      <text x="610" y="770" text-anchor="middle" font-size="12" fill="#1B5E20">Parameterized Pipeline</text>
+      
+      <!-- Model Comparison -->
+      <rect x="730" y="720" width="160" height="90" rx="5" fill="#ffffff" stroke="#4CAF50" stroke-width="1.5" />
+      <text x="810" y="750" text-anchor="middle" font-size="14" font-weight="bold" fill="#1B5E20">Model Comparison</text>
+      <text x="810" y="770" text-anchor="middle" font-size="12" fill="#1B5E20">A/B Testing</text>
+      
+      <!-- Deploy Decision -->
+      <polygon points="930,720 990,765 930,810 870,765" fill="#ffffff" stroke="#4CAF50" stroke-width="1.5" />
+      <text x="930" y="750" text-anchor="middle" font-size="14" font-weight="bold" fill="#1B5E20">Deploy Decision</text>
+      <text x="930" y="770" text-anchor="middle" font-size="12" fill="#1B5E20">Performance Metrics</text>
+      
+      <!-- Connections -->
+      <path d="M290 765 L330 765" stroke="#4CAF50" stroke-width="2" fill="none" />
+      <polygon points="330,765 324,761 324,769" fill="#4CAF50" />
+      
+      <path d="M490 765 L530 765" stroke="#4CAF50" stroke-width="2" fill="none" />
+      <polygon points="530,765 524,761 524,769" fill="#4CAF50" />
+      
+      <path d="M690 765 L730 765" stroke="#4CAF50" stroke-width="2" fill="none" />
+      <polygon points="730,765 724,761 724,769" fill="#4CAF50" />
+      
+      <path d="M890 765 L870 765" stroke="#4CAF50" stroke-width="2" fill="none" />
+      <polygon points="890,765 884,761 884,769" fill="#4CAF50" />
+    </g>
+  </g>
+  
+  <!-- Model Registry -->
+  <g>
+    <rect x="100" y="880" width="1000" height="150" rx="8" fill="#FFF3E0" stroke="#FF9800" stroke-width="2" />
+    <text x="600" y="908" text-anchor="middle" font-size="20" font-weight="bold" fill="#E65100">Model Registry</text>
+    
+    <!-- Components -->
+    <g>
+      <!-- Model Versions -->
+      <rect x="200" y="940" width="160" height="60" rx="5" fill="#ffffff" stroke="#FF9800" stroke-width="1.5" />
+      <text x="280" y="970" text-anchor="middle" font-size="14" font-weight="bold" fill="#E65100">Model Versions</text>
+      <text x="280" y="990" text-anchor="middle" font-size="12" fill="#E65100">MLflow Registry</text>
+      
+      <!-- Model Metadata -->
+      <rect x="520" y="940" width="160" height="60" rx="5" fill="#ffffff" stroke="#FF9800" stroke-width="1.5" />
+      <text x="600" y="970" text-anchor="middle" font-size="14" font-weight="bold" fill="#E65100">Model Metadata</text>
+      <text x="600" y="990" text-anchor="middle" font-size="12" fill="#E65100">Performance Metrics</text>
+      
+      <!-- Artifact Storage -->
+      <rect x="840" y="940" width="160" height="60" rx="5" fill="#ffffff" stroke="#FF9800" stroke-width="1.5" />
+      <text x="920" y="970" text-anchor="middle" font-size="14" font-weight="bold" fill="#E65100">Artifact Storage</text>
+      <text x="920" y="990" text-anchor="middle" font-size="12" fill="#E65100">Local File System</text>
+      
+      <!-- Connections -->
+      <path d="M360 970 L520 970" stroke="#FF9800" stroke-width="2" fill="none" stroke-dasharray="5,5" />
+      <path d="M680 970 L840 970" stroke="#FF9800" stroke-width="2" fill="none" stroke-dasharray="5,5" />
+    </g>
+  </g>
+  
+  <!-- Inference Pipeline -->
+  <g>
+    <rect x="100" y="1070" width="1000" height="180" rx="8" fill="#F3E5F5" stroke="#9C27B0" stroke-width="2" />
+    <text x="600" y="1098" text-anchor="middle" font-size="20" font-weight="bold" fill="#4A148C">Inference Pipeline</text>
+    
+    <!-- Components -->
+    <g>
+      <!-- Model Loading -->
+      <rect x="130" y="1130" width="140" height="90" rx="5" fill="#ffffff" stroke="#9C27B0" stroke-width="1.5" />
+      <text x="200" y="1160" text-anchor="middle" font-size="14" font-weight="bold" fill="#4A148C">Model Loading</text>
+      <text x="200" y="1180" text-anchor="middle" font-size="12" fill="#4A148C">TensorFlow Serving</text>
+      
+      <!-- Prediction API -->
+      <rect x="290" y="1130" width="140" height="90" rx="5" fill="#ffffff" stroke="#9C27B0" stroke-width="1.5" />
+      <text x="360" y="1160" text-anchor="middle" font-size="14" font-weight="bold" fill="#4A148C">Prediction API</text>
+      <text x="360" y="1180" text-anchor="middle" font-size="12" fill="#4A148C">FastAPI</text>
+      
+      <!-- Postprocessing -->
+      <rect x="450" y="1130" width="140" height="90" rx="5" fill="#ffffff" stroke="#9C27B0" stroke-width="1.5" />
+      <text x="520" y="1160" text-anchor="middle" font-size="14" font-weight="bold" fill="#4A148C">Postprocessing</text>
+      <text x="520" y="1180" text-anchor="middle" font-size="12" fill="#4A148C">Contour Detection</text>
+      
+      <!-- Batch Prediction -->
+      <rect x="610" y="1130" width="140" height="90" rx="5" fill="#ffffff" stroke="#9C27B0" stroke-width="1.5" />
+      <text x="680" y="1160" text-anchor="middle" font-size="14" font-weight="bold" fill="#4A148C">Batch Prediction</text>
+      <text x="680" y="1180" text-anchor="middle" font-size="12" fill="#4A148C">Parallel Processing</text>
+      
+      <!-- Geographic Conversion -->
+      <rect x="770" y="1130" width="140" height="90" rx="5" fill="#ffffff" stroke="#9C27B0" stroke-width="1.5" />
+      <text x="840" y="1160" text-anchor="middle" font-size="14" font-weight="bold" fill="#4A148C">Geographic Conversion</text>
+      <text x="840" y="1180" text-anchor="middle" font-size="12" fill="#4A148C">Coordinate Mapping</text>
+      
+      <!-- Result Storage -->
+      <rect x="930" y="1130" width="140" height="90" rx="5" fill="#ffffff" stroke="#9C27B0" stroke-width="1.5" />
+      <text x="1000" y="1160" text-anchor="middle" font-size="14" font-weight="bold" fill="#4A148C">Result Storage</text>
+      <text x="1000" y="1180" text-anchor="middle" font-size="12" fill="#4A148C">GeoJSON/CSV</text>
+      
+      <!-- Connections -->
+      <path d="M270 1175 L290 1175" stroke="#9C27B0" stroke-width="2" fill="none" />
+      <polygon points="290,1175 284,1171 284,1179" fill="#9C27B0" />
+      
+      <path d="M430 1175 L450 1175" stroke="#9C27B0" stroke-width="2" fill="none" />
+      <polygon points="450,1175 444,1171 444,1179" fill="#9C27B0" />
+      
+      <path d="M200 1220 Q200 1250 450 1250 Q520 1250 520 1220" stroke="#9C27B0" stroke-width="2" fill="none" />
+      <polygon points="520,1220 516,1226 524,1226" fill="#9C27B0" />
+      
+      <path d="M680 1220 Q680 1240 520 1240 Q480 1240 480 1220" stroke="#9C27B0" stroke-width="2" fill="none" />
+      <polygon points="480,1220 476,1226 484,1226" fill="#9C27B0" />
+      
+      <path d="M590 1175 L610 1175" stroke="#9C27B0" stroke-width="2" fill="none" />
+      <polygon points="610,1175 604,1171 604,1179" fill="#9C27B0" />
+      
+      <path d="M750 1175 L770 1175" stroke="#9C27B0" stroke-width="2" fill="none" />
+      <polygon points="770,1175 764,1171 764,1179" fill="#9C27B0" />
+      
+      <path d="M910 1175 L930 1175" stroke="#9C27B0" stroke-width="2" fill="none" />
+      <polygon points="930,1175 924,1171 924,1179" fill="#9C27B0" />
+    </g>
+  </g>
+  
+  <!-- Monitoring System -->
+  <g>
+    <rect x="100" y="1290" width="1000" height="180" rx="8" fill="#E0F7FA" stroke="#00BCD4" stroke-width="2" />
+    <text x="600" y="1318" text-anchor="middle" font-size="20" font-weight="bold" fill="#006064">Monitoring System</text>
+    
+    <!-- Components -->
+    <g>
+      <!-- Performance Monitor -->
+      <rect x="130" y="1350" width="160" height="90" rx="5" fill="#ffffff" stroke="#00BCD4" stroke-width="1.5" />
+      <text x="210" y="1380" text-anchor="middle" font-size="14" font-weight="bold" fill="#006064">Model Performance</text>
+      <text x="210" y="1400" text-anchor="middle" font-size="12" fill="#006064">Metrics Dashboard</text>
+      
+      <!-- Data Drift -->
+      <rect x="330" y="1350" width="160" height="90" rx="5" fill="#ffffff" stroke="#00BCD4" stroke-width="1.5" />
+      <text x="410" y="1380" text-anchor="middle" font-size="14" font-weight="bold" fill="#006064">Data Drift Detection</text>
+      <text x="410" y="1400" text-anchor="middle" font-size="12" fill="#006064">Statistical Tests</text>
+      
+      <!-- Concept Drift -->
+      <rect x="530" y="1350" width="160" height="90" rx="5" fill="#ffffff" stroke="#00BCD4" stroke-width="1.5" />
+      <text x="610" y="1380" text-anchor="middle" font-size="14" font-weight="bold" fill="#006064">Concept Drift</text>
+      <text x="610" y="1400" text-anchor="middle" font-size="12" fill="#006064">Performance Degradation</text>
+      
+      <!-- Alerting System -->
+      <rect x="730" y="1350" width="160" height="90" rx="5" fill="#ffffff" stroke="#00BCD4" stroke-width="1.5" />
+      <text x="810" y="1380" text-anchor="middle" font-size="14" font-weight="bold" fill="#006064">Alerting System</text>
+      <text x="810" y="1400" text-anchor="middle" font-size="12" fill="#006064">Prometheus/Grafana</text>
+      
+      <!-- Centralized Logging -->
+      <rect x="930" y="1350" width="140" height="90" rx="5" fill="#ffffff" stroke="#00BCD4" stroke-width="1.5" />
+      <text x="1000" y="1380" text-anchor="middle" font-size="14" font-weight="bold" fill="#006064">Centralized Logging</text>
+      <text x="1000" y="1400" text-anchor="middle" font-size="12" fill="#006064">ELK Stack</text>
+      
+      <!-- Connections -->
+      <path d="M290 1395 L330 1395" stroke="#00BCD4" stroke-width="2" fill="none" />
+      <polygon points="330,1395 324,1391 324,1399" fill="#00BCD4" />
+      
+      <path d="M490 1395 L530 1395" stroke="#00BCD4" stroke-width="2" fill="none" />
+      <polygon points="530,1395 524,1391 524,1399" fill="#00BCD4" />
+      
+      <path d="M690 1395 L730 1395" stroke="#00BCD4" stroke-width="2" fill="none" />
+      <polygon points="730,1395 724,1391 724,1399" fill="#00BCD4" />
+      
+      <path d="M890 1395 L930 1395" stroke="#00BCD4" stroke-width="2" fill="none" />
+      <polygon points="930,1395 924,1391 924,1399" fill="#00BCD4" />
+    </g>
+  </g>
+  
+  <!-- CI/CD Pipeline -->
+  <g>
+    <rect x="100" y="1510" width="490" height="180" rx="8" fill="#FCE4EC" stroke="#E91E63" stroke-width="2" />
+    <text x="345" y="1538" text-anchor="middle" font-size="20" font-weight="bold" fill="#880E4F">CI/CD Pipeline</text>
+    
+    <!-- Components -->
+    <g>
+      <!-- CI Pipeline -->
+      <rect x="130" y="1570" width="140" height="70" rx="5" fill="#ffffff" stroke="#E91E63" stroke-width="1.5" />
+      <text x="200" y="1595" text-anchor="middle" font-size="14" font-weight="bold" fill="#880E4F">CI Pipeline</text>
+      <text x="200" y="1615" text-anchor="middle" font-size="12" fill="#880E4F">GitHub Actions</text>
+      
+      <!-- Code Quality -->
+      <rect x="130" y="1660" width="140" height="70" rx="5" fill="#ffffff" stroke="#E91E63" stroke-width="1.5" />
+      <text x="200" y="1685" text-anchor="middle" font-size="14" font-weight="bold" fill="#880E4F">Code Quality</text>
+      <text x="200" y="1705" text-anchor="middle" font-size="12" fill="#880E4F">SonarQube</text>
+      
+      <!-- Unit Tests -->
+      <rect x="290" y="1570" width="140" height="70" rx="5" fill="#ffffff" stroke="#E91E63" stroke-width="1.5" />
+      <text x="360" y="1595" text-anchor="middle" font-size="14" font-weight="bold" fill="#880E4F">Unit Tests</text>
+      <text x="360" y="1615" text-anchor="middle" font-size="12" fill="#880E4F">PyTest</text>
+      
+      <!-- Integration Tests -->
+      <rect x="290" y="1660" width="140" height="70" rx="5" fill="#ffffff" stroke="#E91E63" stroke-width="1.5" />
+      <text x="360" y="1685" text-anchor="middle" font-size="14" font-weight="bold" fill="#880E4F">Integration Tests</text>
+      <text x="360" y="1705" text-anchor="middle" font-size="12" fill="#880E4F">PyTest</text>
+      
+      <!-- Connections -->
+      <path d="M200 1640 L200 1660" stroke="#E91E63" stroke-width="2" fill="none" />
+      <polygon points="200,1660 196,1654 204,1654" fill="#E91E63" />
+      
+      <path d="M270 1595 L290 1595" stroke="#E91E63" stroke-width="2" fill="none" />
+      <polygon points="290,1595 284,1591 284,1599" fill="#E91E63" />
+      
+      <path d="M270 1685 L290 1685" stroke="#E91E63" stroke-width="2" fill="none" />
+      <polygon points="290,1685 284,1681 284,1689" fill="#E91E63" />
+    </g>
+  </g>
+  
+  <!-- CD Pipeline -->
+  <g>
+    <rect x="610" y="1510" width="490" height="180" rx="8" fill="#FCE4EC" stroke="#E91E63" stroke-width="2" />
+    <text x="855" y="1538" text-anchor="middle" font-size="20" font-weight="bold" fill="#880E4F">CD Pipeline</text>
+    
+    <!-- Components -->
+    <g>
+      <!-- CD Pipeline -->
+      <rect x="640" y="1570" width="140" height="70" rx="5" fill="#ffffff" stroke="#E91E63" stroke-width="1.5" />
+      <text x="710" y="1595" text-anchor="middle" font-size="14" font-weight="bold" fill="#880E4F">CD Pipeline</text>
+      <text x="710" y="1615" text-anchor="middle" font-size="12" fill="#880E4F">GitHub Actions</text>
+      
+      <!-- Artifact Publication -->
+      <rect x="830" y="1570" width="140" height="70" rx="5" fill="#ffffff" stroke="#E91E63" stroke-width="1.5" />
+      <text x="900" y="1595" text-anchor="middle" font-size="14" font-weight="bold" fill="#880E4F">Artifact Publication</text>
+      <text x="900" y="1615" text-anchor="middle" font-size="12" fill="#880E4F">Docker Registry</text>
+      
+      <!-- Connections -->
+      <path d="M780 1605 L830 1605" stroke="#E91E63" stroke-width="2" fill="none" />
+      <polygon points="830,1605 824,1601 824,1609" fill="#E91E63" />
+    </g>
+  </g>
+  
+  <!-- Containerization -->
+  <g>
+    <rect x="100" y="1730" width="1000" height="140" rx="8" fill="#FFFDE7" stroke="#FFC107" stroke-width="2" />
+    <text x="600" y="1758" text-anchor="middle" font-size="20" font-weight="bold" fill="#FF6F00">Containerization</text>
+    
+    <!-- Components -->
+    <g>
+      <!-- Training Container -->
+      <rect x="130" y="1790" width="140" height="50" rx="5" fill="#ffffff" stroke="#FFC107" stroke-width="1.5" />
+      <text x="200" y="1820" text-anchor="middle" font-size="14" font-weight="bold" fill="#FF6F00">Training Container</text>
+      
+      <!-- Inference Container -->
+      <rect x="290" y="1790" width="140" height="50" rx="5" fill="#ffffff" stroke="#FFC107" stroke-width="1.5" />
+      <text x="360" y="1820" text-anchor="middle" font-size="14" font-weight="bold" fill="#FF6F00">Inference Container</text>
+      
+      <!-- MLflow Container -->
+      <rect x="450" y="1790" width="140" height="50" rx="5" fill="#ffffff" stroke="#FFC107" stroke-width="1.5" />
+      <text x="520" y="1820" text-anchor="middle" font-size="14" font-weight="bold" fill="#FF6F00">MLflow Container</text>
+      
+      <!-- Monitoring Container -->
+      <rect x="610" y="1790" width="140" height="50" rx="5" fill="#ffffff" stroke="#FFC107" stroke-width="1.5" />
+      <text x="680" y="1820" text-anchor="middle" font-size="14" font-weight="bold" fill="#FF6F00">Monitoring Container</text>
+      
+      <!-- API Container -->
+      <rect x="770" y="1790" width="140" height="50" rx="5" fill="#ffffff" stroke="#FFC107" stroke-width="1.5" />
+      <text x="840" y="1820" text-anchor="middle" font-size="14" font-weight="bold" fill="#FF6F00">API Container</text>
+      
+      <!-- Database Container -->
+      <rect x="930" y="1790" width="140" height="50" rx="5" fill="#ffffff" stroke="#FFC107" stroke-width="1.5" />
+      <text x="1000" y="1820" text-anchor="middle" font-size="14" font-weight="bold" fill="#FF6F00">Database Container</text>
+      
+      <!-- Connections -->
+      <path d="M270 1815 L290 1815" stroke="#FFC107" stroke-width="2" fill="none" stroke-dasharray="5,5" />
+      <path d="M590 1815 L610 1815" stroke="#FFC107" stroke-width="2" fill="none" stroke-dasharray="5,5" />
+      <path d="M910 1815 L930 1815" stroke="#FFC107" stroke-width="2" fill="none" stroke-dasharray="5,5" />
+    </g>
+  </g>
+  
+  <!-- Cross-Layer Connections -->
+  <g>
+    <!-- Data Layer to Training Pipeline -->
+    <path d="M680 340 C680 380 345 400 345 440" stroke="#2196F3" stroke-width="3" fill="none" />
+    <polygon points="345,440 341,432 349,432" fill="#2196F3" />
+    <text x="600" y="370" text-anchor="middle" font-size="12" fill="#0D47A1" font-weight="bold">DVC Pipeline</text>
+    
+    <!-- Training to Model Registry -->
+    <path d="M900 510 C900 700 280 840 280 940" stroke="#4CAF50" stroke-width="3" fill="none" />
+    <polygon points="280,940 276,932 284,932" fill="#4CAF50" />
+    <text x="850" y="700" text-anchor="middle" font-size="12" fill="#1B5E20" font-weight="bold">Register Model</text>
+    
+    <!-- Model Registry to Inference -->
+    <path d="M280 1000 C280 1050 200 1080 200 1130" stroke="#FF9800" stroke-width="3" fill="none" />
+    <polygon points="200,1130 196,1122 204,1122" fill="#FF9800" />
+    <text x="320" y="1050" text-anchor="middle" font-size="12" fill="#E65100" font-weight="bold">Load Production Model</text>
+    
+    <!-- Inference to Monitoring -->
+    <path d="M1000 1220 C1000 1260 410 1300 410 1350" stroke="#9C27B0" stroke-width="3" fill="none" />
+    <polygon points="410,1350 406,1342 414,1342" fill="#9C27B0" />
+    <text x="900" y="1270" text-anchor="middle" font-size="12" fill="#4A148C" font-weight="bold">Feedback Loop</text>
+    
+    <!-- Monitoring to Retraining -->
+    <path d="M410 1350 C410 1300 210 860 210 810" stroke="#00BCD4" stroke-width="3" fill="none" />
+    <polygon points="210,810 208,818 216,818" fill="#00BCD4" />
+    <text x="350" y="1000" text-anchor="middle" font-size="12" fill="#006064" font-weight="bold">Detect Drift</text>
+    
+    <!-- CI to CD -->
+    <path d="M430 1605 C520 1605 560 1605 640 1605" stroke="#E91E63" stroke-width="3" fill="none" />
+    <polygon points="640,1605 634,1601 634,1609" fill="#E91E63" />
+    <text x="535" y="1590" text-anchor="middle" font-size="12" fill="#880E4F" font-weight="bold">Validate</text>
+    
+    <!-- CD to Containerization -->
+    <path d="M710 1640 C710 1700 200 1760 200 1790" stroke="#E91E63" stroke-width="3" fill="none" />
+    <polygon points="200,1790 198,1782 206,1782" fill="#E91E63" />
+    <text x="500" y="1730" text-anchor="middle" font-size="12" fill="#880E4F" font-weight="bold">Deploy</text>
+    
+    <path d="M710 1640 C710 1700 360 1760 360 1790" stroke="#E91E63" stroke-width="3" fill="none" />
+    <polygon points="360,1790 358,1782 366,1782" fill="#E91E63" />
+    
+    <path d="M710 1640 C710 1700 520 1760 520 1790" stroke="#E91E63" stroke-width="3" fill="none" />
+    <polygon points="520,1790 518,1782 526,1782" fill="#E91E63" />
+    
+    <path d="M710 1640 C710 1700 680 1760 680 1790" stroke="#E91E63" stroke-width="3" fill="none" />
+    <polygon points="680,1790 678,1782 686,1782" fill="#E91E63" />
+    
+    <path d="M710 1640 C710 1700 840 1760 840 1790" stroke="#E91E63" stroke-width="3" fill="none" />
+    <polygon points="840,1790 838,1782 846,1782" fill="#E91E63" />
+  </g>
+  
+  <!-- Legend -->
+  <g>
+    <rect x="100" y="1900" width="300" height="185" rx="5" fill="#ffffff" stroke="#666666" stroke-width="1" />
+    <text x="250" y="1925" text-anchor="middle" font-size="16" font-weight="bold" fill="#333333">Legend</text>
+    
+    <rect x="110" y="1940" width="15" height="15" fill="#E3F2FD" stroke="#2196F3" stroke-width="1" />
+    <text x="135" y="1952" font-size="14" fill="#0D47A1">Data Management</text>
+    
+    <rect x="110" y="1965" width="15" height="15" fill="#E8F5E9" stroke="#4CAF50" stroke-width="1" />
+    <text x="135" y="1977" font-size="14" fill="#1B5E20">Training & Retraining</text>
+    
+    <rect x="110" y="1990" width="15" height="15" fill="#FFF3E0" stroke="#FF9800" stroke-width="1" />
+    <text x="135" y="2002" font-size="14" fill="#E65100">Model Registry</text>
+    
+    <rect x="110" y="2015" width="15" height="15" fill="#F3E5F5" stroke="#9C27B0" stroke-width="1" />
+    <text x="135" y="2027" font-size="14" fill="#4A148C">Inference Pipeline</text>
+    
+    <rect x="110" y="2040" width="15" height="15" fill="#E0F7FA" stroke="#00BCD4" stroke-width="1" />
+    <text x="135" y="2052" font-size="14" fill="#006064">Monitoring</text>
+    
+    <rect x="110" y="2065" width="15" height="15" fill="#FCE4EC" stroke="#E91E63" stroke-width="1" />
+    <text x="135" y="2077" font-size="14" fill="#880E4F">CI/CD</text>
+    
+    <rect x="110" y="2090" width="15" height="15" fill="#FFFDE7" stroke="#FFC107" stroke-width="1" />
+    <text x="135" y="2102" font-size="14" fill="#FF6F00">Containerization</text>
+  </g>

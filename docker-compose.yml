@@ -1,0 +1,87 @@
+# docker-compose.yml updated volume mappings
+version: '3.8'
+
+services:
+  # API Service
+  api:
+    build:
+      context: .
+      dockerfile: infrastructure/docker/api/Dockerfile
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./:/app
+      - data_volume:/data
+      - models_volume:/models
+      - logs_volume:/logs
+    environment:
+      - DATA_DIR=/data
+      - MODELS_DIR=/models
+      - LOG_DIR=/logs
+      - MLFLOW_TRACKING_URI=http://mlflow:5000
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+    depends_on:
+      - redis
+      - mlflow
+  
+  # Celery Worker
+  worker:
+    build:
+      context: .
+      dockerfile: infrastructure/docker/worker/Dockerfile
+    volumes:
+      - ./:/app
+      - data_volume:/data
+      - models_volume:/models
+      - logs_volume:/logs
+    environment:
+      - DATA_DIR=/data
+      - MODELS_DIR=/models
+      - LOG_DIR=/logs
+      - MLFLOW_TRACKING_URI=http://mlflow:5000
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+    depends_on:
+      - redis
+      - mlflow
+  
+  # Redis for task queue
+  redis:
+    image: redis:6.2-alpine
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+  
+  # MLflow Tracking Server
+  mlflow:
+    build:
+      context: .
+      dockerfile: infrastructure/docker/mlflow/Dockerfile
+    ports:
+      - "5000:5000"
+    volumes:
+      - mlflow_data:/mlflow
+    environment:
+      - MLFLOW_TRACKING_URI=/mlflow
+  
+  # SonarQube for code quality
+  sonarqube:
+    image: sonarqube:8.9-community
+    ports:
+      - "9000:9000"
+    volumes:
+      - sonarqube_data:/opt/sonarqube/data
+      - sonarqube_logs:/opt/sonarqube/logs
+      - sonarqube_extensions:/opt/sonarqube/extensions
+
+volumes:
+  data_volume:
+  models_volume:
+  logs_volume:
+  redis_data:
+  mlflow_data:
+  sonarqube_data:
+  sonarqube_logs:
+  sonarqube_extensions:

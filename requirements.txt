@@ -1,0 +1,36 @@
+# Core dependencies
+fastapi
+uvicorn
+python-multipart
+pydantic
+python-dotenv
+
+# Job processing
+celery
+redis
+
+# Utilities
+tqdm
+plotly
+numpy
+pandas
+
+# Version control and tracking
+dvc
+mlflow
+
+# Testing
+pytest
+pytest-cov
+black
+isort
+flake8
+mypy
+
+# Image processing
+opencv-python
+
+# Deep learning (heavyweight)
+tensorflow
+segmentation-models
+patchify

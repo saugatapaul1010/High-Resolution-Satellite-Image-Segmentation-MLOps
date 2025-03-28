@@ -1,3 +1,4 @@
+# Use your provided gitignore content here
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
@@ -168,8 +169,7 @@ cython_debug/
 #.idea/
 
 # PyPI configuration file
-.pypirc
-
+.pypirc 
 
 # DVC artifacts
 .dvc/
@@ -180,9 +180,13 @@ mlruns/
 
 # Data (except for stub files)
 data/*
-!data/.gitkeep  # or !data/placeholder.txt if you prefer
-!data/<data>/.gitkeep #if you prefer
-#!data/<your_raw_data_folder>/*.json #if you want annotations tracked by git
+!data/.gitkeep
+
+# or !data/placeholder.txt if you prefer
+!data/<data>/.gitkeep
+#if you prefer
+#!data/<your_raw_data_folder>/*.json
+#if you want annotations tracked by git
 
 # Python artifacts
 *.pyc
@@ -191,5 +195,6 @@ __pycache__/
 dist/
 build/
 
-# OS generated files #DS_Store
+# OS generated files
+#DS_Store
 .DS_Store
